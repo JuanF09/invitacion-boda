@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function Countdown() {
-  // Target Date: November 15, 2026 16:00
-  const targetDate = new Date("2026-11-15T16:00:00").getTime();
+  // Target Date: September 6, 2026 15:00
+  const targetDate = new Date("2026-09-06T15:00:00").getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -53,7 +53,7 @@ export default function Countdown() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-serif text-olive mb-16"
+          className="text-4xl md:text-5xl font-serif text-wine mb-16"
         >
           Faltan
         </motion.h2>
@@ -69,7 +69,7 @@ export default function Countdown() {
               className="flex flex-col items-center"
             >
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-gold flex items-center justify-center bg-background shadow-sm mb-6 transition-transform hover:scale-105">
-                <span className="text-4xl md:text-6xl font-serif text-olive">
+                <span className="text-4xl md:text-6xl font-serif text-wine">
                   {block.value}
                 </span>
               </div>

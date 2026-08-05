@@ -3,14 +3,14 @@
 :root {
   --background: #FDFBF7;
   --foreground: #4A4A4A;
-  --primary-olive: #556B2F;
+  --primary-wine: #6B1D2A;
   --accent-gold: #C5A059;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-olive: var(--primary-olive);
+  --color-wine: var(--primary-wine);
   --color-gold: var(--accent-gold);
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-inter);

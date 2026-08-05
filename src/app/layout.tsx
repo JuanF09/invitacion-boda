@@ -13,8 +13,8 @@ const playfairFont = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Kevin & Kelly - Wedding Invitation",
-  description: "Join us to celebrate the wedding of Kevin and Kelly",
+  title: "Ricardo & Natalia - Invitación de Boda",
+  description: "Acompáñanos a celebrar nuestra boda",
 };
 
 export default function RootLayout({

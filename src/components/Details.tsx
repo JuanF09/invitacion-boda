@@ -1,62 +1,168 @@
-"use client";
-
-import { Church, GlassWater, MapPin } from "lucide-react";
+import { MapPin, MailPlus, Palette, Church, Video, Music, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Details() {
-  const events = [
-    {
-      title: "Ceremonia",
-      icon: <Church className="w-10 h-10 text-gold mb-4" />,
-      time: "4:00 PM",
-      location: "Parroquia San Juan",
-      address: "Calle Ficticia 123, Norte",
-    },
-    {
-      title: "Recepción",
-      icon: <GlassWater className="w-10 h-10 text-gold mb-4" />,
-      time: "6:00 PM",
-      location: "Hacienda El Bosque",
-      address: "Km 5 Vía La Calera",
-    }
+  const itinerary = [
+    { time: "3:00 PM", title: "Ceremonia", description: "Daremos el sí quiero" },
+    { time: "4:30 PM", title: "Cóctel y Fotos", description: "Música y pasabocas" },
+    { time: "6:00 PM", title: "Cena", description: "Compartamos en la mesa" },
+    { time: "8:00 PM", title: "¡A Bailar!", description: "Inicia la fiesta" },
   ];
 
   return (
     <section className="py-24 bg-background px-4">
-      <div className="max-w-5xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-serif text-olive mb-4">Detalles del Día</h2>
-          <div className="h-px w-20 mx-auto bg-gold" />
-        </motion.div>
+      <div className="max-w-6xl mx-auto space-y-24">
+        
+        {/* SECCIÓN 1: DETALLES PRINCIPALES */}
+        <div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-serif text-wine mb-4">Detalles del Día</h2>
+            <div className="h-px w-20 mx-auto bg-gold" />
+          </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          {events.map((evt, idx) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Ubicación y Hora */}
             <motion.div 
-              key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: idx * 0.2, duration: 0.8 }}
+              transition={{ delay: 0.1, duration: 0.8 }}
               viewport={{ once: true }}
-              className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-olive/10"
+              className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-wine/10"
             >
-              {evt.icon}
-              <h3 className="text-2xl font-serif text-olive mb-2">{evt.title}</h3>
-              <p className="text-xl font-sans text-foreground/80 mb-4">{evt.time}</p>
+              <Church className="w-10 h-10 text-gold mb-4" />
+              <h3 className="text-2xl font-serif text-wine mb-2">Ceremonia & Recepción</h3>
+              <p className="text-xl font-sans text-foreground/80 mb-4">3:00 PM</p>
               <div className="flex flex-col items-center gap-1 text-foreground/70">
-                <span className="font-semibold">{evt.location}</span>
-                <span className="text-sm">{evt.address}</span>
+                <span className="font-semibold">Raíces Villa Rosario</span>
               </div>
-              <button className="mt-8 px-6 py-3 border border-olive text-olive rounded-full flex items-center gap-2 hover:bg-olive hover:text-white transition-colors">
+              <a href="https://maps.app.goo.gl/qRSEvL2LpMXixcTd8" target="_blank" rel="noopener noreferrer" className="mt-8 px-6 py-3 border border-wine text-wine rounded-full flex items-center gap-2 hover:bg-wine hover:text-white transition-colors">
                 <MapPin className="w-4 h-4" />
                 <span className="text-sm tracking-wider uppercase">Ver Mapa</span>
-              </button>
+              </a>
             </motion.div>
-          ))}
+
+            {/* Código de Vestimenta */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-wine/10"
+            >
+              <Palette className="w-10 h-10 text-gold mb-4" />
+              <h3 className="text-2xl font-serif text-wine mb-2">Código de Vestimenta</h3>
+              <p className="text-sm font-sans text-foreground/80 mb-4 mt-2 leading-relaxed">
+                Nos encantaría que nos acompañes usando colores sobrios y elegantes.
+              </p>
+              <div className="mt-auto flex flex-col items-center gap-2 w-full">
+                <span className="font-semibold text-wine text-sm uppercase tracking-wider border-b border-gold/50 pb-1 mb-2">Colores Reservados</span>
+                <span className="text-sm text-foreground/70 mb-3">Rojo, Vino Tinto y Borgoña</span>
+                <div className="flex justify-center gap-4">
+                  <div className="w-8 h-8 rounded-full bg-red-600 shadow-inner border border-black/10" title="Rojo" />
+                  <div className="w-8 h-8 rounded-full bg-[#722F37] shadow-inner border border-black/10" title="Vino Tinto" />
+                  <div className="w-8 h-8 rounded-full bg-[#800020] shadow-inner border border-black/10" title="Borgoña" />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Regalos */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="flex flex-col items-center text-center p-8 bg-white rounded-3xl shadow-sm border border-wine/10"
+            >
+              <MailPlus className="w-10 h-10 text-gold mb-4" />
+              <h3 className="text-2xl font-serif text-wine mb-2">Regalos</h3>
+              <p className="text-sm font-sans text-foreground/80 mb-4 mt-2 leading-relaxed">
+                El mejor regalo que nos puedes dar es tu presencia. Sin embargo, si deseas tener un detalle con nosotros:
+              </p>
+              <div className="mt-auto px-6 py-4 bg-wine/5 rounded-2xl w-full flex items-center justify-center">
+                <span className="font-serif text-wine text-xl">Lluvia de Sobres</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* SECCIÓN 2: ITINERARIO Y STREAMING */}
+        <div className="grid md:grid-cols-2 gap-8 items-start">
+          {/* Itinerario */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10"
+          >
+            <div className="flex items-center gap-4 mb-8">
+              <Clock className="w-8 h-8 text-gold" />
+              <h3 className="text-3xl font-serif text-wine">Itinerario</h3>
+            </div>
+            
+            <div className="space-y-8 relative">
+              {/* Timeline Line */}
+              <div className="absolute inset-0 ml-5 -translate-x-px md:mx-auto md:translate-x-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+              {itinerary.map((item, index) => (
+                <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-wine text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                    <span className="w-2 h-2 rounded-full bg-gold"></span>
+                  </div>
+                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-background border border-wine/5 shadow-sm text-left">
+                    <span className="font-serif text-gold text-lg">{item.time}</span>
+                    <h4 className="font-serif text-wine text-xl mb-1">{item.title}</h4>
+                    <p className="text-sm font-sans text-foreground/70">{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <div className="space-y-8">
+            {/* Transmisión Virtual */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="bg-wine/5 p-8 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center"
+            >
+              <Video className="w-12 h-12 text-wine mb-4" />
+              <h3 className="text-2xl font-serif text-wine mb-2">Transmisión en Vivo</h3>
+              <p className="text-sm font-sans text-foreground/80 mb-6 leading-relaxed">
+                Sabemos que algunos no podrán acompañarnos físicamente. ¡Pero no queremos que se pierdan ningún detalle!
+              </p>
+              <a href="#" className="w-full md:w-auto px-8 py-4 bg-wine text-white rounded-full flex items-center justify-center gap-2 hover:bg-wine/90 transition-colors shadow-md">
+                <Video className="w-4 h-4" />
+                <span className="text-sm tracking-wider uppercase font-semibold">Unirse al Streaming</span>
+              </a>
+              <p className="text-xs text-foreground/50 mt-4">* El enlace se habilitará el día de la boda</p>
+            </motion.div>
+
+            {/* Playlist Colaborativa */}
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center"
+            >
+              <Music className="w-12 h-12 text-gold mb-4" />
+              <h3 className="text-2xl font-serif text-wine mb-2">Ayúdanos con la Música</h3>
+              <p className="text-sm font-sans text-foreground/80 mb-6 leading-relaxed">
+                ¿Qué canción no puede faltar en nuestra fiesta? Agrégala a nuestra playlist de Spotify.
+              </p>
+              <a href="#" className="w-full md:w-auto px-8 py-3 border-2 border-green-600 text-green-700 rounded-full flex items-center justify-center gap-2 hover:bg-green-50 transition-colors font-semibold">
+                <Music className="w-4 h-4" />
+                <span>Abrir en Spotify</span>
+              </a>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
