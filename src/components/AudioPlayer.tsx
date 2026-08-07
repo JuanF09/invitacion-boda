@@ -18,46 +18,50 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
     if (autoPlayTrigger && !hasStarted) {
       setHasStarted(true);
       setIsPlaying(true);
+      // Attempt autoplay (might be blocked on mobile without interaction)
+      setTimeout(() => {
+        if (iframeRef.current) {
+          iframeRef.current.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "playVideo", args: "" }),
+            "*"
+          );
+        }
+      }, 500);
     }
   }, [autoPlayTrigger, hasStarted]);
 
   const togglePlay = () => {
-    if (!hasStarted) {
-      setHasStarted(true);
-      setIsPlaying(true);
-      return;
-    }
+    const nextIsPlaying = !isPlaying;
+    setIsPlaying(nextIsPlaying);
+    setHasStarted(true);
 
     if (iframeRef.current) {
-      if (isPlaying) {
-        iframeRef.current.contentWindow?.postMessage(
-          JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
-          "*"
-        );
-      } else {
+      if (nextIsPlaying) {
         iframeRef.current.contentWindow?.postMessage(
           JSON.stringify({ event: "command", func: "playVideo", args: "" }),
           "*"
         );
+      } else {
+        iframeRef.current.contentWindow?.postMessage(
+          JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
+          "*"
+        );
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
   return (
     <>
-      {hasStarted && (
-        <iframe
-          ref={iframeRef}
-          width="1"
-          height="1"
-          src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=1&loop=1&playlist=FK78oAwoljk"
-          title="Wedding Music"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          className="absolute opacity-0 pointer-events-none -z-10"
-        />
-      )}
+      <iframe
+        ref={iframeRef}
+        width="1"
+        height="1"
+        src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=0&loop=1&playlist=FK78oAwoljk"
+        title="Wedding Music"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        className="absolute opacity-0 pointer-events-none -z-10"
+      />
 
       <motion.button
         initial={{ scale: 0, opacity: 0 }}
