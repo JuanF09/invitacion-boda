@@ -58,7 +58,7 @@ export default function Countdown() {
           Faltan
         </motion.h2>
         
-        <div className="flex flex-wrap justify-center gap-6 md:gap-12">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-12">
           {timeBlocks.map((block, index) => (
             <motion.div
               key={index}
@@ -68,8 +68,8 @@ export default function Countdown() {
               viewport={{ once: true }}
               className="flex flex-col items-center"
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-gold flex items-center justify-center bg-background shadow-sm mb-6 transition-transform hover:scale-105">
-                <span className="text-4xl md:text-6xl font-serif text-wine">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border border-gold flex items-center justify-center bg-background shadow-sm mb-4 sm:mb-6 transition-transform hover:scale-105">
+                <span className="text-3xl sm:text-4xl md:text-6xl font-serif text-wine">
                   {block.value}
                 </span>
               </div>

@@ -67,7 +67,7 @@ export default function Envelope({ guestName, onOpen }: EnvelopeProps) {
                 className="absolute top-8 left-0 w-full text-center z-40 pointer-events-none px-4"
               >
                 <p className="font-serif italic text-wine/80 text-sm">Entregado a:</p>
-                <h3 className="font-serif text-xl sm:text-2xl text-wine font-bold mt-1 tracking-wide break-words">{guestName}</h3>
+                <h3 className="font-serif text-xl sm:text-2xl text-wine font-bold mt-1 tracking-wide break-all">{guestName}</h3>
               </motion.div>
             )}
           </motion.div>

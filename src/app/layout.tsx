@@ -15,6 +15,12 @@ const playfairFont = Playfair_Display({
 export const metadata: Metadata = {
   title: "Ricardo & Natalia - Invitación de Boda",
   description: "Acompáñanos a celebrar nuestra boda",
+  openGraph: {
+    title: "Ricardo & Natalia - ¡Nos Casamos!",
+    description: "Nos encantaría que nos acompañes en este día tan especial. Descubre tu invitación aquí.",
+    images: ["/FOTOS/DSC04838.jpg.jpeg"], // Utiliza una de las fotos de la carpeta FOTOS
+    type: "website",
+  },
 };
 
 export default function RootLayout({

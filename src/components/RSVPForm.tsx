@@ -12,13 +12,22 @@ export default function RSVPForm({ guest }: { guest?: any }) {
   const [originalObservation, setOriginalObservation] = useState<string>("");
 
   useEffect(() => {
-    if (guest && guest.observation) {
-      // Si la base de datos ya tiene un mensaje agregado antes, separamos
-      if (guest.observation.includes(" | Mensaje: ")) {
-        const parts = guest.observation.split(" | Mensaje: ");
-        setOriginalObservation(parts[0]);
-      } else {
-        setOriginalObservation(guest.observation);
+    if (guest) {
+      // Si ya había respondido, mostrar la vista de éxito
+      if (guest.status === "attending" || guest.status === "declined") {
+        setStatus("success");
+        setAttendance(guest.status === "attending" ? "yes" : "no");
+      }
+
+      if (guest.observation) {
+        // Si la base de datos ya tiene un mensaje agregado antes, separamos
+        if (guest.observation.includes(" | Mensaje: ")) {
+          const parts = guest.observation.split(" | Mensaje: ");
+          setOriginalObservation(parts[0]);
+          setUserMessage(parts[1] || "");
+        } else {
+          setOriginalObservation(guest.observation);
+        }
       }
     }
   }, [guest]);
@@ -78,6 +87,32 @@ export default function RSVPForm({ guest }: { guest?: any }) {
     setStatus("success");
   };
 
+  const handleDeleteResponse = async () => {
+    if (!guest || !guest.id) return;
+    if (!confirm("¿Estás seguro de que deseas eliminar tu respuesta?")) return;
+
+    setStatus("submitting");
+    
+    const { error } = await supabase
+      .from("guests")
+      .update({
+        status: "pending",
+        observation: originalObservation
+      })
+      .eq("id", guest.id);
+
+    if (error) {
+      console.error("Error deleting RSVP:", error);
+      setStatus("success");
+      alert("Hubo un error al eliminar tu respuesta.");
+      return;
+    }
+    
+    setStatus("idle");
+    setAttendance("yes");
+    setUserMessage("");
+  };
+
   return (
     <section className="py-24 bg-white px-4">
       <div className="max-w-3xl mx-auto">
@@ -91,7 +126,7 @@ export default function RSVPForm({ guest }: { guest?: any }) {
           <div className="h-px w-20 mx-auto bg-gold mb-6" />
           <p className="text-foreground/70 font-sans">
             Esperamos que puedas acompañarnos en nuestro día especial.
-            Por favor confirma antes del 1 de Noviembre.
+            Por favor confirma antes del 20 de agosto.
           </p>
           {guest && (
             <div className="mt-8">
@@ -114,11 +149,26 @@ export default function RSVPForm({ guest }: { guest?: any }) {
           transition={{ delay: 0.2 }}
         >
           {status === "success" ? (
-            <div className="bg-wine text-white p-12 rounded-3xl text-center shadow-lg">
+            <div className="bg-wine text-white p-8 md:p-12 rounded-3xl text-center shadow-lg relative overflow-hidden">
               <h3 className="text-3xl font-serif mb-4">¡Gracias por responder!</h3>
-              <p className="opacity-90 font-sans tracking-wide">
+              <p className="opacity-90 font-sans tracking-wide mb-8">
                 {attendance === "yes" ? "Estamos felices de que nos acompañes." : "Sentimos que no puedas venir. Gracias por avisarnos."}
               </p>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <button 
+                  onClick={() => setStatus("idle")}
+                  className="px-6 py-3 bg-white text-wine rounded-xl font-sans font-semibold tracking-wider hover:bg-white/90 transition-colors"
+                >
+                  Modificar Respuesta
+                </button>
+                <button 
+                  onClick={handleDeleteResponse}
+                  className="px-6 py-3 border border-white/30 text-white rounded-xl font-sans font-semibold tracking-wider hover:bg-white/10 transition-colors"
+                >
+                  Eliminar Respuesta
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="bg-background p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10 flex flex-col gap-6 relative overflow-hidden">

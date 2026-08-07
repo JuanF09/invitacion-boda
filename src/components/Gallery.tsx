@@ -40,23 +40,34 @@ export default function Gallery() {
           </div>
         </motion.div>
 
-        {/* Galería de Fotos (Placeholders) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {[1, 2, 3, 4].map((item, idx) => (
+        {/* Galería de Fotos (Collage) */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          {[
+            { src: "/FOTOS/DSC04838.jpg.jpeg", className: "col-span-2 md:col-span-2 aspect-[4/3] md:aspect-[16/9]", imgClass: "object-[center_20%]" },
+            { src: "/FOTOS/DSC04797.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04800.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04809.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04810.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04836.jpg.jpeg", className: "col-span-2 md:col-span-2 aspect-[4/3] md:aspect-[16/9]", imgClass: "object-[50%_25%]" },
+            { src: "/FOTOS/DSC04829.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04833.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04843.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-top" },
+            { src: "/FOTOS/DSC04869.jpg.jpeg", className: "col-span-1 aspect-square", imgClass: "object-[50%_15%]" },
+          ].map((photo, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: idx * 0.1, duration: 0.6 }}
+              transition={{ delay: (idx % 3) * 0.1, duration: 0.6 }}
               viewport={{ once: true }}
-              className={`relative rounded-2xl overflow-hidden shadow-sm border-2 border-dashed border-wine/20 bg-wine/5 flex flex-col items-center justify-center p-6 text-center ${
-                idx === 0 || idx === 3 ? "col-span-2 md:col-span-2 aspect-4/3" : "col-span-1 aspect-3/4"
-              } ${idx === 0 ? "md:aspect-video" : ""}`}
+              className={`relative rounded-2xl overflow-hidden shadow-sm border border-wine/10 bg-wine/5 group ${photo.className}`}
             >
-              <ImageIcon className="w-10 h-10 text-wine/40 mb-3" />
-              <p className="font-serif text-wine/60 text-sm md:text-base">
-                Espacio reservado<br />para nuestras fotos
-              </p>
+              <img 
+                src={photo.src} 
+                alt={`Momento ${idx + 1}`} 
+                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${photo.imgClass || "object-center"}`}
+              />
+              <div className="absolute inset-0 bg-wine/0 group-hover:bg-wine/10 transition-colors duration-500" />
             </motion.div>
           ))}
         </div>
@@ -74,11 +85,10 @@ export default function Gallery() {
           <p className="text-foreground/80 font-sans mb-8 text-lg">
             Hemos creado un álbum digital para que todos nuestros invitados puedan subir las fotos y videos que tomen durante la boda. ¡Queremos ver la fiesta desde su perspectiva!
           </p>
-          <a href="#" className="px-8 py-4 bg-wine text-white rounded-full flex items-center justify-center gap-2 hover:bg-wine/90 transition-colors shadow-md font-semibold text-sm tracking-wider uppercase w-full md:w-auto">
+          <a href="https://photos.app.goo.gl/E4BAKhAuPXhJE4uT7" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-wine text-white rounded-full flex items-center justify-center gap-2 hover:bg-wine/90 transition-colors shadow-md font-semibold text-sm tracking-wider uppercase w-full md:w-auto">
             <Camera className="w-5 h-5" />
-            <span>Subir mis fotos</span>
+            <span>Ver y subir fotos</span>
           </a>
-          <p className="text-xs text-foreground/50 mt-4">* El enlace al álbum estará disponible muy pronto</p>
         </motion.div>
         
       </div>

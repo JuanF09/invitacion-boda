@@ -1,13 +1,7 @@
-import { MapPin, MailPlus, Palette, Church, Video, Music, Clock } from "lucide-react";
+import { MapPin, MailPlus, Palette, Church, Video, Music } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Details() {
-  const itinerary = [
-    { time: "3:00 PM", title: "Ceremonia", description: "Daremos el sí quiero" },
-    { time: "4:30 PM", title: "Cóctel y Fotos", description: "Música y pasabocas" },
-    { time: "6:00 PM", title: "Cena", description: "Compartamos en la mesa" },
-    { time: "8:00 PM", title: "¡A Bailar!", description: "Inicia la fiesta" },
-  ];
 
   return (
     <section className="py-24 bg-background px-4">
@@ -90,79 +84,44 @@ export default function Details() {
           </div>
         </div>
 
-        {/* SECCIÓN 2: ITINERARIO Y STREAMING */}
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          {/* Itinerario */}
+        {/* SECCIÓN 2: MÚSICA Y STREAMING */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Transmisión Virtual */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10"
+            className="bg-wine/5 p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center justify-center h-full"
           >
-            <div className="flex items-center gap-4 mb-8">
-              <Clock className="w-8 h-8 text-gold" />
-              <h3 className="text-3xl font-serif text-wine">Itinerario</h3>
-            </div>
-            
-            <div className="space-y-8 relative">
-              {/* Timeline Line */}
-              <div className="absolute inset-0 ml-5 -translate-x-px md:mx-auto md:translate-x-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
-              {itinerary.map((item, index) => (
-                <div key={index} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-wine text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                    <span className="w-2 h-2 rounded-full bg-gold"></span>
-                  </div>
-                  <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-background border border-wine/5 shadow-sm text-left">
-                    <span className="font-serif text-gold text-lg">{item.time}</span>
-                    <h4 className="font-serif text-wine text-xl mb-1">{item.title}</h4>
-                    <p className="text-sm font-sans text-foreground/70">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Video className="w-12 h-12 text-wine mb-4" />
+            <h3 className="text-2xl font-serif text-wine mb-4">Transmisión en Vivo</h3>
+            <p className="text-base font-sans text-foreground/80 mb-8 leading-relaxed">
+              Sabemos que algunos no podrán acompañarnos físicamente. ¡Pero no queremos que se pierdan ningún detalle!
+            </p>
+            <p className="text-sm text-wine font-semibold font-sans tracking-wide uppercase px-6 py-3 bg-wine/10 rounded-full">
+              El enlace se compartirá el día de la boda
+            </p>
           </motion.div>
 
-          <div className="space-y-8">
-            {/* Transmisión Virtual */}
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="bg-wine/5 p-8 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center"
-            >
-              <Video className="w-12 h-12 text-wine mb-4" />
-              <h3 className="text-2xl font-serif text-wine mb-2">Transmisión en Vivo</h3>
-              <p className="text-sm font-sans text-foreground/80 mb-6 leading-relaxed">
-                Sabemos que algunos no podrán acompañarnos físicamente. ¡Pero no queremos que se pierdan ningún detalle!
-              </p>
-              <a href="#" className="w-full md:w-auto px-8 py-4 bg-wine text-white rounded-full flex items-center justify-center gap-2 hover:bg-wine/90 transition-colors shadow-md">
-                <Video className="w-4 h-4" />
-                <span className="text-sm tracking-wider uppercase font-semibold">Unirse al Streaming</span>
-              </a>
-              <p className="text-xs text-foreground/50 mt-4">* El enlace se habilitará el día de la boda</p>
-            </motion.div>
-
-            {/* Playlist Colaborativa */}
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-              viewport={{ once: true }}
-              className="bg-white p-8 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center"
-            >
-              <Music className="w-12 h-12 text-gold mb-4" />
-              <h3 className="text-2xl font-serif text-wine mb-2">Ayúdanos con la Música</h3>
-              <p className="text-sm font-sans text-foreground/80 mb-6 leading-relaxed">
-                ¿Qué canción no puede faltar en nuestra fiesta? Agrégala a nuestra playlist de Spotify.
-              </p>
-              <a href="#" className="w-full md:w-auto px-8 py-3 border-2 border-green-600 text-green-700 rounded-full flex items-center justify-center gap-2 hover:bg-green-50 transition-colors font-semibold">
-                <Music className="w-4 h-4" />
-                <span>Abrir en Spotify</span>
-              </a>
-            </motion.div>
-          </div>
+          {/* Playlist Colaborativa */}
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            viewport={{ once: true }}
+            className="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10 text-center flex flex-col items-center justify-center h-full"
+          >
+            <Music className="w-12 h-12 text-gold mb-4" />
+            <h3 className="text-2xl font-serif text-wine mb-4">Ayúdanos con la Música</h3>
+            <p className="text-base font-sans text-foreground/80 mb-8 leading-relaxed">
+              ¿Qué canción no puede faltar en nuestra fiesta? Agrégala a nuestra playlist de Spotify.
+            </p>
+            <a href="https://open.spotify.com/playlist/47tQU1EbJvhyeXX9Ejdktu?si=4yNxuTw6QneSEoxSR-dp-g&utm_source=copy-link&pt=20ca1495713acc8ecb69abb0f5bbad86&pi=V56goEkfQ0msH" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto px-8 py-4 border-2 border-green-600 text-green-700 rounded-full flex items-center justify-center gap-2 hover:bg-green-50 transition-colors font-semibold">
+              <Music className="w-5 h-5" />
+              <span className="text-sm tracking-wider uppercase">Abrir en Spotify</span>
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>

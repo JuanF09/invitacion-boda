@@ -45,13 +45,13 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
     <>
       <iframe
         ref={iframeRef}
-        width="0"
-        height="0"
-        src="https://www.youtube.com/embed/mPZXntbxLso?enablejsapi=1&autoplay=0&loop=1&playlist=mPZXntbxLso"
+        width="1"
+        height="1"
+        src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=0&loop=1&playlist=FK78oAwoljk"
         title="Wedding Music"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        className="hidden"
+        className="absolute opacity-0 pointer-events-none -z-10"
       />
 
       <motion.button
