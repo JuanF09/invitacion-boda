@@ -10,21 +10,24 @@ interface AudioPlayerProps {
 
 export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Efecto para auto-play cuando el sobre se abre
   useEffect(() => {
-    if (autoPlayTrigger && iframeRef.current && !isPlaying) {
-      // Usar la API de mensajes de YouTube para reproducir
-      iframeRef.current.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "playVideo", args: "" }),
-        "*"
-      );
+    if (autoPlayTrigger && !hasStarted) {
+      setHasStarted(true);
       setIsPlaying(true);
     }
-  }, [autoPlayTrigger, isPlaying]);
+  }, [autoPlayTrigger, hasStarted]);
 
   const togglePlay = () => {
+    if (!hasStarted) {
+      setHasStarted(true);
+      setIsPlaying(true);
+      return;
+    }
+
     if (iframeRef.current) {
       if (isPlaying) {
         iframeRef.current.contentWindow?.postMessage(
@@ -43,16 +46,18 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
 
   return (
     <>
-      <iframe
-        ref={iframeRef}
-        width="1"
-        height="1"
-        src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=0&loop=1&playlist=FK78oAwoljk"
-        title="Wedding Music"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        className="absolute opacity-0 pointer-events-none -z-10"
-      />
+      {hasStarted && (
+        <iframe
+          ref={iframeRef}
+          width="1"
+          height="1"
+          src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=1&loop=1&playlist=FK78oAwoljk"
+          title="Wedding Music"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          className="absolute opacity-0 pointer-events-none -z-10"
+        />
+      )}
 
       <motion.button
         initial={{ scale: 0, opacity: 0 }}

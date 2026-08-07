@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
 const interFont = Inter({
@@ -9,6 +9,12 @@ const interFont = Inter({
 
 const playfairFont = Playfair_Display({
   variable: "--font-playfair",
+  subsets: ["latin"],
+});
+
+const scriptFont = Great_Vibes({
+  weight: "400",
+  variable: "--font-script",
   subsets: ["latin"],
 });
 
@@ -31,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${interFont.variable} ${playfairFont.variable} h-full antialiased`}
+      className={`${interFont.variable} ${playfairFont.variable} ${scriptFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
