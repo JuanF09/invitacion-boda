@@ -1,53 +1,75 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import confetti from "canvas-confetti";
+import { X, CheckCircle2, Heart } from "lucide-react";
+import { EditorialCard } from "./EditorialDecorations";
+import type { GuestRecord } from "@/lib/defaultGuests";
 
-export default function RSVPForm({ guest }: { guest?: any }) {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
-  const [attendance, setAttendance] = useState<string>("yes");
-  const [userMessage, setUserMessage] = useState<string>("");
-  const [originalObservation, setOriginalObservation] = useState<string>("");
+export function parseGuestObservation(observation: string | null | undefined) {
+  if (!observation) {
+    return { baseCuposText: "Cupos: 1", maxPasses: 1, confirmedPasses: null as number | null, message: "" };
+  }
 
-  useEffect(() => {
-    if (guest) {
-      // Si ya había respondido, mostrar la vista de éxito
-      if (guest.status === "attending" || guest.status === "declined") {
-        setStatus("success");
-        setAttendance(guest.status === "attending" ? "yes" : "no");
-      }
+  const parts = observation.split(" | ");
+  const baseCuposText = parts[0] || "Cupos: 1";
 
-      if (guest.observation) {
-        // Si la base de datos ya tiene un mensaje agregado antes, separamos
-        if (guest.observation.includes(" | Mensaje: ")) {
-          const parts = guest.observation.split(" | Mensaje: ");
-          setOriginalObservation(parts[0]);
-          setUserMessage(parts[1] || "");
-        } else {
-          setOriginalObservation(guest.observation);
-        }
-      }
+  // Extract first number from "Cupos: 3" or "3"
+  const match = baseCuposText.match(/(\d+)/);
+  const maxPasses = match ? Math.max(1, parseInt(match[1], 10)) : 1;
+
+  let confirmedPasses: number | null = null;
+  let message = "";
+
+  for (const part of parts.slice(1)) {
+    if (part.startsWith("Confirmados:")) {
+      const cMatch = part.match(/(\d+)/);
+      if (cMatch) confirmedPasses = parseInt(cMatch[1], 10);
+    } else if (part.startsWith("Mensaje:")) {
+      message = part.replace("Mensaje:", "").trim();
     }
-  }, [guest]);
+  }
+
+  return { baseCuposText, maxPasses, confirmedPasses, message };
+}
+
+export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success">(
+    guest?.status === "attending" || guest?.status === "declined" ? "success" : "idle"
+  );
+  const [attendance, setAttendance] = useState<"yes" | "no">(
+    guest?.status === "declined" ? "no" : "yes"
+  );
+  const initialParsed = parseGuestObservation(guest?.observation);
+  const [attendeeCount, setAttendeeCount] = useState<number>(
+    initialParsed.confirmedPasses ?? initialParsed.maxPasses
+  );
+  const [attendeeNames, setAttendeeNames] = useState<string>(guest?.name || "");
+  const [userMessage, setUserMessage] = useState<string>(initialParsed.message);
+  const maxPasses = initialParsed.maxPasses;
+  const baseCuposText = initialParsed.baseCuposText;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!guest || !guest.id) return;
-    
+
     setStatus("submitting");
-    
-    // Concatenamos el cupo original con el mensaje nuevo si existe
-    const finalObservation = userMessage.trim() 
-      ? `${originalObservation} | Mensaje: ${userMessage}`
-      : originalObservation;
-    
+
+    const confirmedNum = attendance === "yes" ? attendeeCount : 0;
+    const segments = [baseCuposText, `Confirmados: ${confirmedNum}`];
+    if (userMessage.trim()) {
+      segments.push(`Mensaje: ${userMessage.trim()}`);
+    }
+    const finalObservation = segments.join(" | ");
+
     const { error } = await supabase
       .from("guests")
       .update({
         status: attendance === "yes" ? "attending" : "declined",
-        observation: finalObservation
+        observation: finalObservation,
       })
       .eq("id", guest.id);
 
@@ -59,8 +81,8 @@ export default function RSVPForm({ guest }: { guest?: any }) {
     }
 
     if (attendance === "yes") {
-      const end = Date.now() + 3 * 1000;
-      const colors = ['#8A8C78', '#D4AF37', '#ffffff'];
+      const end = Date.now() + 2500;
+      const colors = ["#526330", "#C59B47", "#FAF9F5"];
 
       (function frame() {
         confetti({
@@ -68,168 +90,262 @@ export default function RSVPForm({ guest }: { guest?: any }) {
           angle: 60,
           spread: 55,
           origin: { x: 0 },
-          colors: colors
+          colors,
         });
         confetti({
           particleCount: 3,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
-          colors: colors
+          colors,
         });
 
         if (Date.now() < end) {
           requestAnimationFrame(frame);
         }
-      }());
+      })();
     }
-    
+
     setStatus("success");
+    setIsModalOpen(false);
   };
 
-  const handleDeleteResponse = async () => {
-    if (!guest || !guest.id) return;
-    if (!confirm("¿Estás seguro de que deseas eliminar tu respuesta?")) return;
-
-    setStatus("submitting");
-    
-    const { error } = await supabase
-      .from("guests")
-      .update({
-        status: "pending",
-        observation: originalObservation
-      })
-      .eq("id", guest.id);
-
-    if (error) {
-      console.error("Error deleting RSVP:", error);
-      setStatus("success");
-      alert("Hubo un error al eliminar tu respuesta.");
-      return;
-    }
-    
-    setStatus("idle");
-    setAttendance("yes");
-    setUserMessage("");
-  };
+  const passOptions = Array.from({ length: maxPasses }, (_, i) => i + 1);
 
   return (
-    <section className="py-24 bg-white px-4">
-      <div className="max-w-3xl mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-serif text-wine mb-4">Confirma tu Asistencia</h2>
-          <div className="h-px w-20 mx-auto bg-gold mb-6" />
-          <p className="text-foreground/70 font-sans">
-            Esperamos que puedas acompañarnos en nuestro día especial.
-            Por favor confirma antes del 20 de agosto.
-          </p>
-          {guest && (
-            <div className="mt-8">
-              <p className="text-wine font-serif italic text-2xl mb-2">
-                {guest.name}
-              </p>
-              {originalObservation && (
-                <div className="inline-block bg-wine/5 border border-wine/20 rounded-full px-6 py-2 text-sm font-sans tracking-wider text-wine font-semibold mt-2">
-                  Invitación válida para: {originalObservation.replace('Cupos: ', '')}
-                </div>
-              )}
-            </div>
-          )}
-        </motion.div>
-
+    <section className="py-16 sm:py-24 bg-[#F7F5F0] px-4 overflow-hidden">
+      <div className="max-w-lg mx-auto relative">
+        {/* Main Editorial Confirmation Card (01:04 - 01:06 of video) */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
+          className="pt-6"
         >
-          {status === "success" ? (
-            <div className="bg-wine text-white p-8 md:p-12 rounded-3xl text-center shadow-lg relative overflow-hidden">
-              <h3 className="text-3xl font-serif mb-4">¡Gracias por responder!</h3>
-              <p className="opacity-90 font-sans tracking-wide mb-8">
-                {attendance === "yes" ? "Estamos felices de que nos acompañes." : "Sentimos que no puedas venir. Gracias por avisarnos."}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button 
-                  onClick={() => setStatus("idle")}
-                  className="px-6 py-3 bg-white text-wine rounded-xl font-sans font-semibold tracking-wider hover:bg-white/90 transition-colors"
-                >
-                  Modificar Respuesta
-                </button>
-                <button 
-                  onClick={handleDeleteResponse}
-                  className="px-6 py-3 border border-white/30 text-white rounded-xl font-sans font-semibold tracking-wider hover:bg-white/10 transition-colors"
-                >
-                  Eliminar Respuesta
-                </button>
+          <EditorialCard
+            hasTopSeal={true}
+            sealText="D&T"
+            topRightFlower={true}
+            bottomLeftFlower={false}
+            topLeftFlower={false}
+            bottomRightFlower={false}
+            className="pb-16 sm:pb-20"
+          >
+            <h2 className="font-serif text-xl sm:text-2xl tracking-[0.16em] text-[#2C3325] uppercase mt-3 leading-snug">
+              CONFIRMACIÓN
+              <br />
+              DE ASISTENCIA
+            </h2>
+
+            <p className="font-serif text-sm sm:text-base text-[#2C3325]/85 mt-5 leading-relaxed max-w-xs mx-auto">
+              Tu presencia hará este día aún más especial.
+            </p>
+
+            <p className="font-serif text-sm sm:text-base text-[#2C3325]/90 mt-3 leading-relaxed max-w-xs mx-auto">
+              Agradecemos confirmar tu asistencia antes del{" "}
+              <span className="font-semibold text-[#3B4920]">06 de noviembre de 2026</span>.
+            </p>
+
+            <p className="font-script text-3xl text-[#526330] mt-3">¡Te esperamos!</p>
+
+            {guest && (
+              <div className="mt-4 py-2 px-4 bg-[#526330]/8 border border-[#526330]/20 rounded-sm inline-block">
+                <p className="font-serif text-xs sm:text-sm text-[#2C3325] font-medium">
+                  {guest.name}
+                </p>
+                <p className="font-serif text-[11px] sm:text-xs text-[#526330] tracking-wider uppercase mt-0.5">
+                  Pase válido para {maxPasses === 1 ? "1 persona" : `${maxPasses} personas`}
+                </p>
               </div>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="bg-background p-8 md:p-12 rounded-3xl shadow-sm border border-wine/10 flex flex-col gap-6 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gold"></div>
-              
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-semibold uppercase tracking-wider text-wine">¿Asistirás?</label>
-                <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                  <label className="flex-1 flex items-center justify-center p-4 border-2 border-wine rounded-xl cursor-pointer hover:bg-wine hover:text-white transition-colors has-checked:bg-wine has-checked:text-white group">
-                    <input 
-                      type="radio" 
-                      name="attendance" 
-                      value="yes" 
-                      required 
-                      className="hidden" 
-                      checked={attendance === "yes"}
-                      onChange={(e) => setAttendance(e.target.value)}
-                    />
-                    <span className="font-sans font-medium tracking-wide">Sí, asistiré</span>
-                  </label>
-                  <label className="flex-1 flex items-center justify-center p-4 border-2 border-red-900/30 text-red-900 rounded-xl cursor-pointer hover:bg-red-900 hover:text-white transition-colors has-checked:bg-red-900 has-checked:text-white">
-                    <input 
-                      type="radio" 
-                      name="attendance" 
-                      value="no" 
-                      className="hidden" 
-                      checked={attendance === "no"}
-                      onChange={(e) => setAttendance(e.target.value)}
-                    />
-                    <span className="font-sans font-medium tracking-wide">No podré</span>
-                  </label>
+            )}
+
+            {/* Status message if already confirmed */}
+            {status === "success" && (
+              <div className="mt-5 p-3 bg-[#EBF0E4] border border-[#526330]/30 rounded-sm max-w-xs mx-auto">
+                <div className="flex items-center justify-center gap-1.5 text-[#3B4920] font-serif text-sm font-semibold">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>
+                    {attendance === "yes"
+                      ? `¡Asistencia confirmada (${attendeeCount} ${
+                          attendeeCount === 1 ? "persona" : "personas"
+                        })!`
+                      : "Has indicado que no podrás asistir"}
+                  </span>
                 </div>
               </div>
+            )}
 
-              <div className="flex flex-col gap-2 mt-4">
-                <label className="text-sm font-semibold uppercase tracking-wider text-wine">Mensaje (Opcional)</label>
-                <textarea 
-                  name="userMessage" 
-                  rows={3}
-                  value={userMessage}
-                  onChange={(e) => setUserMessage(e.target.value)}
-                  className="w-full p-4 rounded-xl border-2 border-wine/10 bg-white focus:outline-none focus:border-gold transition-colors resize-none font-sans"
-                  placeholder="Ej: Tengo alergia al maní..."
-                ></textarea>
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="px-8 py-3 bg-[#526330] hover:bg-[#3B4920] text-white font-serif text-xs sm:text-sm tracking-[0.18em] uppercase rounded-sm shadow-md transition-all cursor-pointer"
+              >
+                {status === "success" ? "MODIFICAR RESPUESTA" : "CONFIRMAR AQUÍ"}
+              </button>
+            </div>
+          </EditorialCard>
+        </motion.div>
+
+        {/* Bottom Polaroid + Olive Oval Medallion "D & T" (01:05 - 01:22 of video) */}
+        <div className="relative -mt-14 sm:-mt-16 z-30 flex items-center justify-between max-w-md mx-auto px-4 sm:px-6 pointer-events-none">
+          {/* Left Tilted Polaroid */}
+          <motion.div
+            initial={{ opacity: 0, rotate: -10, y: 20 }}
+            whileInView={{ opacity: 1, rotate: -4, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="w-44 sm:w-52 bg-white p-2.5 pb-7 shadow-[0_14px_30px_rgba(0,0,0,0.16)] border border-black/5"
+          >
+            <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
+              <img
+                src="/FOTOS/DSC04843.jpg.jpeg"
+                alt="David & Thalia"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+          </motion.div>
+
+          {/* Right Vertical Olive Green Oval Medallion "D & T" */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.7 }}
+            viewport={{ once: true }}
+            className="w-28 h-44 sm:w-32 sm:h-48 rounded-[999px] bg-[#526330] p-2 shadow-xl flex items-center justify-center mr-1 sm:mr-2"
+          >
+            <div className="w-full h-full rounded-[999px] border border-[#C59B47]/65 flex flex-col items-center justify-center text-[#FAF9F5] font-serif">
+              <span className="text-xl sm:text-2xl tracking-widest">D</span>
+              <span className="text-sm sm:text-base italic text-[#E7C97B] my-1">&</span>
+              <span className="text-xl sm:text-2xl tracking-widest">T</span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* RSVP MODAL (Exact match to 01:07 - 01:17 of reference video) */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-xs"
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.92, opacity: 0, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-md bg-[#EAE8E1] p-3 sm:p-4 shadow-2xl rounded-xs"
+            >
+              {/* Top Decorative Circle */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-[#D8D4C8] border border-[#3B4920]/40 shadow-md flex items-center justify-center">
+                <Heart className="w-4 h-4 text-[#526330]" />
               </div>
 
-              <button 
-                type="submit" 
-                disabled={status === "submitting" || !guest}
-                className="mt-6 w-full bg-wine text-white p-4 rounded-xl font-sans font-semibold tracking-[0.2em] hover:bg-wine/90 transition-colors flex justify-center items-center h-14 disabled:opacity-50"
-              >
-                {status === "submitting" ? (
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  "ENVIAR RESPUESTA"
-                )}
-              </button>
-            </form>
-          )}
-        </motion.div>
-      </div>
+              {/* Inner Architectural Frame */}
+              <div className="border border-[#3B4920]/50 px-5 py-7 sm:px-7 sm:py-8">
+                {/* Close button */}
+                <div className="flex justify-center mb-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="text-[#2C3325]/60 hover:text-[#2C3325] transition-colors p-1 cursor-pointer"
+                    aria-label="Cerrar formulario"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <h3 className="font-serif text-base sm:text-lg tracking-[0.14em] text-[#2C3325] uppercase mb-5 text-left">
+                  CONFIRMACIÓN DE ASISTENCIA
+                </h3>
+
+                <form onSubmit={handleSubmit} className="space-y-4 text-left font-serif">
+                  {/* Nombre completo */}
+                  <div>
+                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                      Nombre completo de todos los asistentes al evento:
+                    </label>
+                    <input
+                      type="text"
+                      value={attendeeNames}
+                      onChange={(e) => setAttendeeNames(e.target.value)}
+                      required
+                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                    />
+                  </div>
+
+                  {/* ¿Podrás asistir al evento? */}
+                  <div>
+                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                      ¿Podrás asistir al evento?
+                    </label>
+                    <select
+                      value={attendance}
+                      onChange={(e) => setAttendance(e.target.value as "yes" | "no")}
+                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                    >
+                      <option value="yes">Sí asistiré</option>
+                      <option value="no">No podré asistir</option>
+                    </select>
+                  </div>
+
+                  {/* ¿Cuántas personas asistirán? (Only limited to guest's assigned passes!) */}
+                  {attendance === "yes" && (
+                    <div>
+                      <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                        ¿Cuántas personas asistirán?
+                      </label>
+                      <select
+                        value={attendeeCount}
+                        onChange={(e) => setAttendeeCount(parseInt(e.target.value, 10))}
+                        className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                      >
+                        {passOptions.map((num) => (
+                          <option key={num} value={num}>
+                            {num} {num === 1 ? "persona" : "personas"}
+                          </option>
+                        ))}
+                      </select>
+                      <p className="text-[11px] text-[#526330] mt-1 italic">
+                        * Tu invitación tiene reservados hasta {maxPasses}{" "}
+                        {maxPasses === 1 ? "cupo" : "cupos"} (solo adultos).
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Felicitaciones y buenos deseos */}
+                  <div>
+                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                      Déjanos tus felicitaciones y buenos deseos aquí:
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={userMessage}
+                      onChange={(e) => setUserMessage(e.target.value)}
+                      placeholder="Escribe tu mensaje para David & Thalia..."
+                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330] resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-3">
+                    <button
+                      type="submit"
+                      disabled={status === "submitting"}
+                      className="w-full py-3 bg-[#526330] hover:bg-[#3B4920] text-white font-serif text-xs sm:text-sm tracking-[0.2em] uppercase rounded-xs shadow-md transition-colors disabled:opacity-50 cursor-pointer"
+                    >
+                      {status === "submitting" ? "GUARDANDO..." : "CONFIRMAR ASISTENCIA"}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

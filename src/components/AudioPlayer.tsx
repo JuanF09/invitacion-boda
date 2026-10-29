@@ -8,46 +8,46 @@ interface AudioPlayerProps {
   autoPlayTrigger?: boolean;
 }
 
+const YOUTUBE_VIDEO_ID = "QXfEg03FX4M";
+
 export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
+  const hasStartedRef = useRef(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Efecto para auto-play cuando el sobre se abre
-  useEffect(() => {
-    if (autoPlayTrigger && !hasStarted) {
-      setHasStarted(true);
-      setIsPlaying(true);
-      // Attempt autoplay (might be blocked on mobile without interaction)
-      setTimeout(() => {
-        if (iframeRef.current) {
-          iframeRef.current.contentWindow?.postMessage(
-            JSON.stringify({ event: "command", func: "playVideo", args: "" }),
-            "*"
-          );
-        }
-      }, 500);
+  const sendCommand = (func: "playVideo" | "pauseVideo") => {
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(
+        JSON.stringify({ event: "command", func, args: "" }),
+        "*"
+      );
     }
-  }, [autoPlayTrigger, hasStarted]);
+  };
+
+  useEffect(() => {
+    if (autoPlayTrigger && !hasStartedRef.current) {
+      hasStartedRef.current = true;
+
+      const t0 = setTimeout(() => {
+        setIsPlaying(true);
+        sendCommand("playVideo");
+      }, 150);
+      const t1 = setTimeout(() => sendCommand("playVideo"), 800);
+      const t2 = setTimeout(() => sendCommand("playVideo"), 1600);
+
+      return () => {
+        clearTimeout(t0);
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
+    }
+  }, [autoPlayTrigger]);
 
   const togglePlay = () => {
     const nextIsPlaying = !isPlaying;
+    hasStartedRef.current = true;
     setIsPlaying(nextIsPlaying);
-    setHasStarted(true);
-
-    if (iframeRef.current) {
-      if (nextIsPlaying) {
-        iframeRef.current.contentWindow?.postMessage(
-          JSON.stringify({ event: "command", func: "playVideo", args: "" }),
-          "*"
-        );
-      } else {
-        iframeRef.current.contentWindow?.postMessage(
-          JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
-          "*"
-        );
-      }
-    }
+    sendCommand(nextIsPlaying ? "playVideo" : "pauseVideo");
   };
 
   return (
@@ -56,54 +56,55 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
         ref={iframeRef}
         width="1"
         height="1"
-        src="https://www.youtube.com/embed/FK78oAwoljk?enablejsapi=1&autoplay=0&loop=1&playlist=FK78oAwoljk"
-        title="Wedding Music"
+        src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?enablejsapi=1&autoplay=0&loop=1&playlist=${YOUTUBE_VIDEO_ID}`}
+        title="Música de Boda - David & Thalia"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        className="absolute opacity-0 pointer-events-none -z-10"
+        className="fixed opacity-0 pointer-events-none -z-50 w-px h-px"
       />
 
-      <motion.button
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 2, duration: 0.5 }}
-        onClick={togglePlay}
-        className={`fixed bottom-22.5 md:bottom-25 right-4 md:right-6 z-50 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shadow-lg border border-wine/20 transition-all duration-300 ${
-          isPlaying ? "bg-wine text-white" : "bg-white text-wine"
-        }`}
-      >
-        <AnimatePresence mode="wait">
-          {isPlaying ? (
-            <motion.div
-              key="pause"
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: 90 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Pause className="w-5 h-5" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="play"
-              initial={{ scale: 0, rotate: -90 }}
-              animate={{ scale: 1, rotate: 0 }}
-              exit={{ scale: 0, rotate: 90 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Music className="w-5 h-5" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {autoPlayTrigger && (
+        <motion.button
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.4 }}
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pausar música" : "Reproducir música"}
+          className={`fixed top-4 left-4 z-50 w-10 h-10 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 backdrop-blur-md cursor-pointer ${
+            isPlaying
+              ? "bg-[#FAF9F5]/85 text-[#3B4920] border-[#3B4920]/30"
+              : "bg-[#526330] text-white border-white/30"
+          }`}
+        >
+          <AnimatePresence mode="wait">
+            {isPlaying ? (
+              <motion.div
+                key="pause"
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                exit={{ scale: 0, rotate: 90 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Pause className="w-4 h-4" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="play"
+                initial={{ scale: 0, rotate: -90 }}
+                animate={{ scale: 1, rotate: 0 }}
+                exit={{ scale: 0, rotate: 90 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Music className="w-4 h-4" />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        {/* Efecto de ondas cuando suena la música */}
-        {isPlaying && (
-          <>
-            <span className="absolute inset-0 rounded-full border border-wine animate-ping opacity-30" />
-            <span className="absolute -inset-1 rounded-full border border-wine animate-ping opacity-20" style={{ animationDelay: '0.2s' }} />
-          </>
-        )}
-      </motion.button>
+          {isPlaying && (
+            <span className="absolute inset-0 rounded-full border border-[#526330] animate-ping opacity-30" />
+          )}
+        </motion.button>
+      )}
     </>
   );
 }

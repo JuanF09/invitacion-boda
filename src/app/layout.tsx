@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Great_Vibes } from "next/font/google";
+import { Montserrat, Cormorant_Garamond, Great_Vibes } from "next/font/google";
 import "./globals.css";
 
-const interFont = Inter({
+const interFont = Montserrat({
   variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
 });
 
-const playfairFont = Playfair_Display({
+const playfairFont = Cormorant_Garamond({
   variable: "--font-playfair",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 const scriptFont = Great_Vibes({
@@ -19,12 +22,12 @@ const scriptFont = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "Ricardo & Natalia - Invitación de Boda",
-  description: "Acompáñanos a celebrar nuestra boda",
+  title: "David & Thalia - Invitación de Boda",
+  description: "Acompáñanos a celebrar el inicio de nuestra historia de amor - 15 de Noviembre 2026",
   openGraph: {
-    title: "Ricardo & Natalia - ¡Nos Casamos!",
-    description: "Nos encantaría que nos acompañes en este día tan especial. Descubre tu invitación aquí.",
-    images: ["/FOTOS/DSC04810.jpg.jpeg"], // Utiliza una de las fotos de la carpeta FOTOS
+    title: "David & Thalia - ¡Nos Casamos!",
+    description: "Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia. Descubre tu invitación aquí.",
+    images: ["/FOTOS/DSC04810.jpg.jpeg"],
     type: "website",
   },
 };
@@ -39,7 +42,7 @@ export default function RootLayout({
       lang="es"
       className={`${interFont.variable} ${playfairFont.variable} ${scriptFont.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col bg-background text-foreground selection:bg-olive/20">
         {children}
       </body>
     </html>

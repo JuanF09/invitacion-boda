@@ -1,34 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+
+const PARTICLES = Array.from({ length: 24 }).map((_, i) => ({
+  id: i,
+  x: (i * 17 + 7) % 100,
+  y: (i * 29 + 13) % 100,
+  driftX: ((i * 11) % 10) - 5,
+  size: (i % 4) + 1.5,
+  delay: (i % 5) * 0.9,
+  duration: 12 + (i % 7) * 1.5,
+}));
 
 export default function GoldParticles() {
-  const [particles, setParticles] = useState<{ id: number; x: number; y: number; size: number; delay: number; duration: number }[]>([]);
-
-  useEffect(() => {
-    // Generar partículas aleatorias solo en el cliente para evitar hidratación diferente
-    const newParticles = Array.from({ length: 30 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100, // % horizontal
-      y: Math.random() * 100, // % vertical
-      size: Math.random() * 4 + 1, // Tamaño entre 1 y 5 px
-      delay: Math.random() * 5, // Retraso de 0 a 5s
-      duration: Math.random() * 10 + 10, // Duración de 10 a 20s
-    }));
-    setParticles(newParticles);
-  }, []);
-
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      {particles.map((p) => (
+      {PARTICLES.map((p) => (
         <motion.div
           key={p.id}
           initial={{ opacity: 0, x: `${p.x}vw`, y: `${p.y + 20}vh` }}
-          animate={{ 
-            opacity: [0, 0.6, 0], 
+          animate={{
+            opacity: [0, 0.5, 0],
             y: `${p.y - 20}vh`,
-            x: `${p.x + (Math.random() * 10 - 5)}vw` 
+            x: `${p.x + p.driftX}vw`,
           }}
           transition={{
             duration: p.duration,
@@ -41,7 +35,7 @@ export default function GoldParticles() {
             width: p.size,
             height: p.size,
             filter: "blur(1px)",
-            boxShadow: "0 0 4px rgba(212,175,55,0.8)"
+            boxShadow: "0 0 4px rgba(197,155,71,0.7)",
           }}
         />
       ))}

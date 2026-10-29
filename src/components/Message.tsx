@@ -1,121 +1,129 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Heart, Quote } from "lucide-react";
+import { EditorialCard } from "./EditorialDecorations";
 
 export default function Message() {
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3
-      }
-    }
-  };
-
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8 } }
-  };
-
   return (
-    <section className="py-24 bg-white px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        
-        {/* Intro Message */}
+    <section className="py-16 sm:py-24 bg-[#F7F5F0] px-4 overflow-hidden">
+      <div className="max-w-lg mx-auto">
+        {/* Main Editorial Card with Olive Green Offset Block Behind */}
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="mb-16 md:mb-24"
+          initial={{ opacity: 0, y: 35 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.85, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-40px" }}
+          className="relative pt-8 pl-3 sm:pl-5"
         >
-          <motion.div variants={fadeUp} className="flex justify-center mb-6 md:mb-8">
-            <Heart className="w-10 h-10 text-gold fill-gold/20" />
-          </motion.div>
-          
-          <motion.p variants={fadeUp} className="text-lg sm:text-xl md:text-2xl font-serif text-wine mb-6 leading-relaxed italic">
-            Nos sentimos muy emocionados por este nuevo capítulo de nuestras vidas.
-          </motion.p>
-          
-          <motion.p variants={fadeUp} className="text-base sm:text-lg md:text-xl font-sans text-foreground/80 leading-relaxed mb-6">
-            Si hoy estás leyendo estas palabras, es porque ocupas un lugar especial en nuestra historia.
-          </motion.p>
+          {/* Decorative Olive Green Block Behind Top-Left (exact match to 00:16 of video) */}
+          <div
+            className="absolute top-0 left-0 w-40 sm:w-48 h-72 sm:h-80 bg-[#526330] shadow-md z-0"
+            aria-hidden="true"
+          />
 
-          <motion.p variants={fadeUp} className="text-sm sm:text-base md:text-lg font-sans text-foreground/70 leading-relaxed font-light">
-            La vida nos enseñó que cada persona que Dios pone en nuestro camino deja una huella. Algunos nos vieron crecer, otros caminar en diferentes etapas, algunos estuvieron cerca y otros, sin saberlo, nos regalaron una palabra, una oración, una sonrisa o un abrazo cuando más lo necesitábamos. Y todo eso también nos trajo hasta aquí.
-          </motion.p>
-        </motion.div>
+          <EditorialCard
+            hasTopSeal={true}
+            sealText="D&T"
+            topRightFlower={true}
+            bottomLeftFlower={true}
+            className="z-10"
+          >
+            <h2 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] text-[#2C3325] uppercase leading-snug mt-2">
+              DAVID &
+              <br />
+              THALIA
+            </h2>
 
-        {/* Our Story */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-          className="bg-background p-6 sm:p-8 md:p-14 rounded-3xl border border-wine/10 shadow-sm relative overflow-hidden mb-16 md:mb-24"
-        >
-          <div className="absolute top-0 left-0 w-full h-1 bg-gold"></div>
-          
-          <motion.h3 variants={fadeUp} className="text-2xl sm:text-3xl md:text-5xl font-serif text-wine mb-8 md:mb-10">Nuestra Historia</motion.h3>
-          
-          <div className="space-y-6 text-foreground/80 font-sans leading-relaxed text-left md:text-justify font-light text-sm sm:text-base md:text-lg">
-            <motion.p variants={fadeUp}>
-              Nos conocimos mucho antes de imaginarnos un “para siempre”. Crecimos en el mismo lugar, cada uno viviendo su propia historia, aprendiendo, madurando y descubriendo el propósito que Dios tenía para nuestras vidas. 
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              Cuando llegó el momento indicado, nuestros caminos se encontraron, y entendimos que el amor más bonito no nace de la prisa, sino del propósito y la voluntad de Dios; no busca completar lo que falta, sino compartir lo que Dios ya había restaurado en cada corazón.
-            </motion.p>
-            <motion.p variants={fadeUp}>
-              Hoy elegimos caminar de la mano para escribir una nueva historia. Una historia donde el amor será nuestra decisión diaria, la comunicación nuestro lenguaje, la fe nuestra fortaleza, el hogar nuestro lugar favorito y Cristo el centro de nuestro Hogar.
-            </motion.p>
-          </div>
-        </motion.div>
+            <div className="w-12 h-px bg-[#526330]/40 mx-auto my-5" />
 
-        {/* Final Message & Verse */}
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-50px" }}
-        >
-          <motion.div variants={fadeUp} className="space-y-6 text-base sm:text-lg md:text-xl font-sans text-foreground/80 leading-relaxed font-light mb-16">
-            <p className="font-serif italic text-wine text-xl sm:text-2xl mb-8">
-              Y hay algo que deseamos con todo el corazón: que quienes amamos estén allí.
-            </p>
-            <p>
-              Queremos verte sonreír con nosotros, emocionarte con nosotros, abrazarnos y ser testigo del instante en que dos vidas se convierten en una sola familia.
-            </p>
-            <p>
-              Gracias por ser parte de nuestras vidas. Gracias por creer en nosotros, por acompañarnos y por estar para nosotros en esta locura de amor.
-            </p>
-            <p className="font-medium text-wine">
-              Nuestro mayor regalo será tenerte cerca mientras comenzamos el capítulo más hermoso que Dios ha escrito para nosotros.
-            </p>
-          </motion.div>
-
-          <motion.div variants={fadeUp} className="flex flex-col items-center gap-4 sm:gap-6 mt-12 md:mt-16 p-6 sm:p-8 bg-wine/5 rounded-2xl border border-wine/10 mx-auto">
-            <Quote className="w-6 h-6 sm:w-8 sm:h-8 text-gold/50" />
-            <div className="text-center">
-              <p className="font-serif text-lg sm:text-xl md:text-2xl text-wine italic mb-4 leading-relaxed">
-                “Sobre todo, ámense profundamente, porque el amor cubre muchísimas faltas.”
+            <div className="space-y-4 font-serif text-sm sm:text-base text-[#2C3325]/90 leading-relaxed">
+              <p>
+                Hay momentos que se convierten en recuerdos eternos y sueños que Dios hace realidad.
               </p>
-              <p className="font-sans text-xs sm:text-sm tracking-widest uppercase text-foreground/60 mb-8">
-                1 Pedro 4:8
+              <p>
+                No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.
               </p>
-              <p className="font-serif text-2xl sm:text-3xl text-wine mb-2">Con todo nuestro amor,</p>
-              <p className="font-serif text-3xl sm:text-4xl text-gold mb-8">Richi y Naty 🤍</p>
-              
-              <div className="inline-block px-4 sm:px-6 py-2 bg-white rounded-full border border-wine/20 shadow-sm">
-                <p className="font-sans text-[10px] sm:text-xs tracking-widest uppercase text-wine font-medium">
-                  “Dios, el centro de nuestro hogar”
-                </p>
-              </div>
+              <p>
+                Hoy, nuestros corazones se preparan para dar el sí más importante de nuestras vidas
+                y comenzar juntos una hermosa historia de amor.
+              </p>
+              <p className="italic text-[#3B4920] font-medium pt-1">
+                Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia.
+              </p>
             </div>
-          </motion.div>
+
+            <p className="font-serif text-xs sm:text-sm text-[#2C3325]/75 mt-7 mb-3 tracking-wide">
+              Que se celebrará el próximo
+            </p>
+
+            {/* Framed Date (15 - 11 - 2026) */}
+            <div className="inline-block border-y border-[#3B4920]/60 px-6 py-2 my-1">
+              <span className="font-serif text-2xl sm:text-3xl tracking-[0.18em] text-[#2C3325]">
+                15 · 11 · 2026
+              </span>
+            </div>
+
+            <p className="font-serif text-xs sm:text-sm text-[#2C3325]/80 mt-3 tracking-wider uppercase">
+              Domingo · 4:00 PM
+            </p>
+          </EditorialCard>
         </motion.div>
 
+        {/* Overlapping Tilted Polaroids + Bible Verse (exact match to 00:21-00:24 of video) */}
+        <div className="mt-16 sm:mt-20 flex flex-col items-center">
+          <div className="relative w-full max-w-80 h-85 sm:h-92.5 mx-auto">
+            {/* Top-Left Polaroid */}
+            <motion.div
+              initial={{ opacity: 0, x: -25, rotate: -10 }}
+              whileInView={{ opacity: 1, x: 0, rotate: -5 }}
+              transition={{ duration: 0.75 }}
+              viewport={{ once: true }}
+              className="absolute top-0 left-2 w-48 sm:w-52 bg-white p-2.5 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] border border-black/5 z-10"
+            >
+              <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
+                <img
+                  src="/FOTOS/DSC04797.jpg.jpeg"
+                  alt="David & Thalia"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </motion.div>
+
+            {/* Bottom-Right Polaroid */}
+            <motion.div
+              initial={{ opacity: 0, x: 25, rotate: 10 }}
+              whileInView={{ opacity: 1, x: 0, rotate: 4 }}
+              transition={{ delay: 0.2, duration: 0.75 }}
+              viewport={{ once: true }}
+              className="absolute bottom-2 right-2 w-52 sm:w-56 bg-white p-2.5 pb-8 shadow-[0_15px_32px_rgba(0,0,0,0.15)] border border-black/5 z-20"
+            >
+              <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
+                <img
+                  src="/FOTOS/DSC04800.jpg.jpeg"
+                  alt="David & Thalia"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Bible Verse: 1 Corintios 13:7 NTV */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center max-w-sm mx-auto mt-8 px-4"
+          >
+            <p className="font-serif italic text-base sm:text-lg text-[#2C3325]/90 leading-relaxed">
+              “El amor nunca se da por vencido, jamás pierde la fe, siempre tiene esperanzas y se
+              mantiene firme en toda circunstancia.”
+            </p>
+            <p className="font-serif text-xs sm:text-sm tracking-[0.2em] uppercase text-[#526330] font-semibold mt-3">
+              1 Corintios 13:7 NTV
+            </p>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -4,24 +4,22 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function Countdown() {
-  // Target Date: September 6, 2026 15:00
-  const targetDate = new Date("2026-09-06T15:00:00").getTime();
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [mounted, setMounted] = useState(false);
+  // Target Date: Sunday, November 15, 2026 16:00 (4:00 PM Colombia Time)
+  const targetDate = new Date("2026-11-15T16:00:00-05:00").getTime();
+  const [timeLeft, setTimeLeft] = useState<{
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    const interval = setInterval(() => {
+    const updateTimer = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
 
-      if (distance < 0) {
-        clearInterval(interval);
+      if (distance <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
 
@@ -31,55 +29,51 @@ export default function Countdown() {
         minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
         seconds: Math.floor((distance % (1000 * 60)) / 1000),
       });
-    }, 1000);
+    };
 
-    return () => clearInterval(interval);
+    const initialTimeout = setTimeout(updateTimer, 0);
+    const interval = setInterval(updateTimer, 1000);
+    return () => {
+      clearTimeout(initialTimeout);
+      clearInterval(interval);
+    };
   }, [targetDate]);
 
+  if (!timeLeft) return null;
+
   const timeBlocks = [
-    { label: "Días", value: timeLeft.days },
-    { label: "Horas", value: timeLeft.hours },
-    { label: "Minutos", value: timeLeft.minutes },
-    { label: "Seg", value: timeLeft.seconds },
+    { label: "Días", value: String(timeLeft.days).padStart(2, "0") },
+    { label: "Horas", value: String(timeLeft.hours).padStart(2, "0") },
+    { label: "Min", value: String(timeLeft.minutes).padStart(2, "0") },
+    { label: "Seg", value: String(timeLeft.seconds).padStart(2, "0") },
   ];
 
-  if (!mounted) return null; // Avoid hydration mismatch on initial render
-
   return (
-    <section className="py-24 bg-white px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-serif text-wine mb-16"
-        >
-          Faltan
-        </motion.h2>
-        
-        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-12">
+    <section className="pb-16 pt-4 bg-[#F7F5F0] px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="max-w-md mx-auto text-center border-y border-[#3B4920]/20 py-8"
+      >
+        <p className="font-serif text-xs sm:text-sm text-[#3B4920]/80 tracking-[0.18em] uppercase mb-5">
+          Celebraremos el capítulo más hermoso en:
+        </p>
+
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-xs mx-auto">
           {timeBlocks.map((block, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col items-center"
-            >
-              <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-full border border-gold flex items-center justify-center bg-background shadow-sm mb-4 sm:mb-6 transition-transform hover:scale-105">
-                <span className="text-3xl sm:text-4xl md:text-6xl font-serif text-wine">
-                  {block.value}
-                </span>
-              </div>
-              <span className="uppercase tracking-[0.2em] text-xs md:text-sm font-sans text-foreground/70 font-semibold">
+            <div key={index} className="flex flex-col items-center">
+              <span className="text-3xl sm:text-5xl font-serif text-[#2C3325] tracking-wider leading-none">
+                {block.value}
+              </span>
+              <span className="mt-2 text-xs sm:text-sm font-serif text-[#2C3325]/70">
                 {block.label}
               </span>
-            </motion.div>
+            </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
