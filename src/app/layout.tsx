@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "David & Thalia - ¡Nos Casamos!",
     description: "Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia. Descubre tu invitación aquí.",
-    images: ["/FOTOS/DSC04810.jpg.jpeg"],
+    images: ["/FOTOS/DSC02860.JPG.jpeg"],
     type: "website",
   },
 };

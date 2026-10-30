@@ -60,12 +60,12 @@ export default function InvitationClient({ guest }: { guest: GuestRecord }) {
           <RSVPForm guest={guest} />
 
           {/* 7. Barra final Verde Olivo idéntica al cierre del video */}
-          <footer className="bg-[#526330] text-white py-5 px-4 text-center border-t border-[#3B4920]">
-            <p className="font-serif tracking-[0.22em] text-sm sm:text-base uppercase">
+          <footer className="bg-[#3A491E] text-white py-8 px-4 text-center border-t-2 border-[#C59B47] shadow-inner">
+            <p className="font-serif tracking-[0.28em] text-base sm:text-lg uppercase font-bold text-[#FAF8F5]">
               David & Thalia
             </p>
-            <p className="font-serif text-[11px] tracking-[0.18em] text-white/75 uppercase mt-1">
-              15 · Noviembre · 2026
+            <p className="font-serif italic text-xs sm:text-sm tracking-[0.22em] text-[#E7C97B] mt-1.5 font-semibold">
+              15 · Noviembre · 2026 · Salón Patio de los Cujíes
             </p>
           </footer>
         </motion.div>

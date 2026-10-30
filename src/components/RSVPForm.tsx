@@ -132,29 +132,32 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
             bottomRightFlower={false}
             className="pb-16 sm:pb-20"
           >
-            <h2 className="font-serif text-xl sm:text-2xl tracking-[0.16em] text-[#2C3325] uppercase mt-3 leading-snug">
+            <h2 className="font-serif text-2xl sm:text-3xl tracking-[0.18em] text-[#1E2614] uppercase mt-3 leading-snug font-semibold">
               CONFIRMACIÓN
               <br />
               DE ASISTENCIA
             </h2>
 
-            <p className="font-serif text-sm sm:text-base text-[#2C3325]/85 mt-5 leading-relaxed max-w-xs mx-auto">
+            <p className="font-serif text-base sm:text-lg text-[#232C17] mt-5 leading-relaxed max-w-sm mx-auto">
               Tu presencia hará este día aún más especial.
             </p>
 
-            <p className="font-serif text-sm sm:text-base text-[#2C3325]/90 mt-3 leading-relaxed max-w-xs mx-auto">
+            <p className="font-serif text-base sm:text-lg text-[#232C17] mt-3 leading-relaxed max-w-sm mx-auto">
               Agradecemos confirmar tu asistencia antes del{" "}
-              <span className="font-semibold text-[#3B4920]">06 de noviembre de 2026</span>.
+              <span className="font-bold text-[#3B4920] underline decoration-[#C59B47] underline-offset-4">
+                06 de noviembre de 2026
+              </span>
+              .
             </p>
 
-            <p className="font-script text-3xl text-[#526330] mt-3">¡Te esperamos!</p>
+            <p className="font-script text-4xl sm:text-5xl text-[#526330] mt-4">¡Te esperamos!</p>
 
             {guest && (
-              <div className="mt-4 py-2 px-4 bg-[#526330]/8 border border-[#526330]/20 rounded-sm inline-block">
-                <p className="font-serif text-xs sm:text-sm text-[#2C3325] font-medium">
+              <div className="mt-5 py-2.5 px-5 bg-[#526330]/10 border border-[#526330]/30 rounded-xs inline-block shadow-xs">
+                <p className="font-serif text-sm sm:text-base text-[#1E2614] font-bold">
                   {guest.name}
                 </p>
-                <p className="font-serif text-[11px] sm:text-xs text-[#526330] tracking-wider uppercase mt-0.5">
+                <p className="font-serif text-xs sm:text-sm text-[#455529] tracking-wider uppercase mt-1 font-semibold">
                   Pase válido para {maxPasses === 1 ? "1 persona" : `${maxPasses} personas`}
                 </p>
               </div>
@@ -162,9 +165,9 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
 
             {/* Status message if already confirmed */}
             {status === "success" && (
-              <div className="mt-5 p-3 bg-[#EBF0E4] border border-[#526330]/30 rounded-sm max-w-xs mx-auto">
-                <div className="flex items-center justify-center gap-1.5 text-[#3B4920] font-serif text-sm font-semibold">
-                  <CheckCircle2 className="w-4 h-4" />
+              <div className="mt-6 p-4 bg-[#EAF0E2] border border-[#526330]/40 rounded-xs max-w-sm mx-auto shadow-sm">
+                <div className="flex items-center justify-center gap-2 text-[#34421C] font-serif text-base font-bold">
+                  <CheckCircle2 className="w-5 h-5 text-[#526330]" />
                   <span>
                     {attendance === "yes"
                       ? `¡Asistencia confirmada (${attendeeCount} ${
@@ -176,11 +179,11 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
               </div>
             )}
 
-            <div className="mt-6">
+            <div className="mt-8">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="px-8 py-3 bg-[#526330] hover:bg-[#3B4920] text-white font-serif text-xs sm:text-sm tracking-[0.18em] uppercase rounded-sm shadow-md transition-all cursor-pointer"
+                className="px-10 py-3.5 bg-linear-to-r from-[#526330] to-[#435226] hover:from-[#3D4B22] hover:to-[#323E1B] text-white font-serif text-sm sm:text-base tracking-[0.2em] uppercase rounded-xs shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all cursor-pointer font-semibold border border-[#E7C97B]/40"
               >
                 {status === "success" ? "MODIFICAR RESPUESTA" : "CONFIRMAR AQUÍ"}
               </button>
@@ -196,13 +199,13 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
             whileInView={{ opacity: 1, rotate: -4, y: 0 }}
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
-            className="w-44 sm:w-52 bg-white p-2.5 pb-7 shadow-[0_14px_30px_rgba(0,0,0,0.16)] border border-black/5"
+            className="w-44 sm:w-52 bg-white p-2.5 pb-7 shadow-[0_16px_35px_rgba(0,0,0,0.18)] border border-black/5"
           >
             <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
               <img
-                src="/FOTOS/DSC04843.jpg.jpeg"
+                src="/FOTOS/DSC02866.JPG.jpeg"
                 alt="David & Thalia"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-[center_20%]"
               />
             </div>
           </motion.div>
@@ -259,50 +262,50 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
                   </button>
                 </div>
 
-                <h3 className="font-serif text-base sm:text-lg tracking-[0.14em] text-[#2C3325] uppercase mb-5 text-left">
+                <h3 className="font-serif text-lg sm:text-xl tracking-[0.16em] text-[#1E2614] uppercase mb-6 text-center font-bold">
                   CONFIRMACIÓN DE ASISTENCIA
                 </h3>
 
                 <form onSubmit={handleSubmit} className="space-y-4 text-left font-serif">
                   {/* Nombre completo */}
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
-                      Nombre completo de todos los asistentes al evento:
+                    <label className="block text-sm text-[#1E2614] font-medium mb-1.5">
+                      Nombre completo de los asistentes:
                     </label>
                     <input
                       type="text"
                       value={attendeeNames}
                       onChange={(e) => setAttendeeNames(e.target.value)}
                       required
-                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                      className="w-full px-4 py-3 bg-[#FAF9F5] border border-[#3B4920]/35 rounded-xs text-base text-[#1E2614] focus:outline-none focus:border-[#526330] focus:ring-1 focus:ring-[#526330]"
                     />
                   </div>
 
                   {/* ¿Podrás asistir al evento? */}
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                    <label className="block text-sm text-[#1E2614] font-medium mb-1.5">
                       ¿Podrás asistir al evento?
                     </label>
                     <select
                       value={attendance}
                       onChange={(e) => setAttendance(e.target.value as "yes" | "no")}
-                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                      className="w-full px-4 py-3 bg-[#FAF9F5] border border-[#3B4920]/35 rounded-xs text-base text-[#1E2614] focus:outline-none focus:border-[#526330] focus:ring-1 focus:ring-[#526330]"
                     >
                       <option value="yes">Sí asistiré</option>
                       <option value="no">No podré asistir</option>
                     </select>
                   </div>
 
-                  {/* ¿Cuántas personas asistirán? (Only limited to guest's assigned passes!) */}
+                  {/* ¿Cuántas personas asistirán? */}
                   {attendance === "yes" && (
                     <div>
-                      <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                      <label className="block text-sm text-[#1E2614] font-medium mb-1.5">
                         ¿Cuántas personas asistirán?
                       </label>
                       <select
                         value={attendeeCount}
                         onChange={(e) => setAttendeeCount(parseInt(e.target.value, 10))}
-                        className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330]"
+                        className="w-full px-4 py-3 bg-[#FAF9F5] border border-[#3B4920]/35 rounded-xs text-base text-[#1E2614] focus:outline-none focus:border-[#526330] focus:ring-1 focus:ring-[#526330]"
                       >
                         {passOptions.map((num) => (
                           <option key={num} value={num}>
@@ -310,16 +313,16 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
                           </option>
                         ))}
                       </select>
-                      <p className="text-[11px] text-[#526330] mt-1 italic">
+                      <p className="text-xs text-[#526330] mt-1.5 font-medium italic">
                         * Tu invitación tiene reservados hasta {maxPasses}{" "}
-                        {maxPasses === 1 ? "cupo" : "cupos"} (solo adultos).
+                        {maxPasses === 1 ? "cupo" : "cupos"} (evento exclusivo para adultos).
                       </p>
                     </div>
                   )}
 
                   {/* Felicitaciones y buenos deseos */}
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#2C3325]/85 mb-1.5">
+                    <label className="block text-sm text-[#1E2614] font-medium mb-1.5">
                       Déjanos tus felicitaciones y buenos deseos aquí:
                     </label>
                     <textarea
@@ -327,7 +330,7 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
                       value={userMessage}
                       onChange={(e) => setUserMessage(e.target.value)}
                       placeholder="Escribe tu mensaje para David & Thalia..."
-                      className="w-full px-3.5 py-2.5 bg-[#FAF9F5] border border-[#3B4920]/25 rounded-xs text-sm text-[#2C3325] focus:outline-none focus:border-[#526330] resize-none"
+                      className="w-full px-4 py-3 bg-[#FAF9F5] border border-[#3B4920]/35 rounded-xs text-base text-[#1E2614] focus:outline-none focus:border-[#526330] focus:ring-1 focus:ring-[#526330] resize-none"
                     />
                   </div>
 
@@ -335,7 +338,7 @@ export default function RSVPForm({ guest }: { guest?: GuestRecord }) {
                     <button
                       type="submit"
                       disabled={status === "submitting"}
-                      className="w-full py-3 bg-[#526330] hover:bg-[#3B4920] text-white font-serif text-xs sm:text-sm tracking-[0.2em] uppercase rounded-xs shadow-md transition-colors disabled:opacity-50 cursor-pointer"
+                      className="w-full py-3.5 bg-linear-to-r from-[#526330] to-[#435226] hover:from-[#3D4B22] hover:to-[#323E1B] text-white font-serif text-sm sm:text-base tracking-[0.2em] uppercase rounded-xs shadow-md transition-colors disabled:opacity-50 cursor-pointer font-bold border border-[#E7C97B]/40"
                     >
                       {status === "submitting" ? "GUARDANDO..." : "CONFIRMAR ASISTENCIA"}
                     </button>

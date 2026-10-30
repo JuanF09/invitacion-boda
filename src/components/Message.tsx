@@ -5,19 +5,19 @@ import { EditorialCard } from "./EditorialDecorations";
 
 export default function Message() {
   return (
-    <section className="py-16 sm:py-24 bg-[#F7F5F0] px-4 overflow-hidden">
+    <section className="py-20 sm:py-28 bg-[#F7F5F0] px-4 overflow-hidden">
       <div className="max-w-lg mx-auto">
-        {/* Main Editorial Card with Olive Green Offset Block Behind */}
+        {/* Main Editorial Card with Olive Green Offset Block Behind (00:16 of video) */}
         <motion.div
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: "easeOut" }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
           viewport={{ once: true, margin: "-40px" }}
           className="relative pt-8 pl-3 sm:pl-5"
         >
-          {/* Decorative Olive Green Block Behind Top-Left (exact match to 00:16 of video) */}
+          {/* Decorative Olive Green Block Behind Top-Left */}
           <div
-            className="absolute top-0 left-0 w-40 sm:w-48 h-72 sm:h-80 bg-[#526330] shadow-md z-0"
+            className="absolute top-0 left-0 w-44 sm:w-56 h-80 sm:h-96 bg-[#4A5B2B] shadow-lg rounded-xs z-0"
             aria-hidden="true"
           />
 
@@ -26,17 +26,17 @@ export default function Message() {
             sealText="D&T"
             topRightFlower={true}
             bottomLeftFlower={true}
-            className="z-10"
+            className="z-10 shadow-2xl"
           >
-            <h2 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] text-[#2C3325] uppercase leading-snug mt-2">
+            <h2 className="font-serif text-3xl sm:text-4xl tracking-[0.2em] text-[#1B2412] uppercase leading-snug mt-3 font-bold">
               DAVID &
               <br />
               THALIA
             </h2>
 
-            <div className="w-12 h-px bg-[#526330]/40 mx-auto my-5" />
+            <div className="w-16 h-0.5 bg-[#C59B47] mx-auto my-6" />
 
-            <div className="space-y-4 font-serif text-sm sm:text-base text-[#2C3325]/90 leading-relaxed">
+            <div className="space-y-4 font-serif text-base sm:text-lg md:text-xl text-[#1E2713] leading-relaxed">
               <p>
                 Hay momentos que se convierten en recuerdos eternos y sueños que Dios hace realidad.
               </p>
@@ -47,61 +47,61 @@ export default function Message() {
                 Hoy, nuestros corazones se preparan para dar el sí más importante de nuestras vidas
                 y comenzar juntos una hermosa historia de amor.
               </p>
-              <p className="italic text-[#3B4920] font-medium pt-1">
+              <p className="italic text-[#3B4A20] font-semibold pt-2 text-lg sm:text-xl">
                 Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia.
               </p>
             </div>
 
-            <p className="font-serif text-xs sm:text-sm text-[#2C3325]/75 mt-7 mb-3 tracking-wide">
+            <p className="font-serif text-sm sm:text-base text-[#38481E] mt-8 mb-3 tracking-widest uppercase font-medium">
               Que se celebrará el próximo
             </p>
 
             {/* Framed Date (15 - 11 - 2026) */}
-            <div className="inline-block border-y border-[#3B4920]/60 px-6 py-2 my-1">
-              <span className="font-serif text-2xl sm:text-3xl tracking-[0.18em] text-[#2C3325]">
+            <div className="inline-block border-y-2 border-[#3B4920]/70 px-8 py-3 my-2 bg-[#FAF8F5]">
+              <span className="font-serif text-3xl sm:text-4xl md:text-5xl tracking-[0.22em] text-[#1B2412] font-bold">
                 15 · 11 · 2026
               </span>
             </div>
 
-            <p className="font-serif text-xs sm:text-sm text-[#2C3325]/80 mt-3 tracking-wider uppercase">
+            <p className="font-serif text-base sm:text-lg md:text-xl text-[#3B4920] mt-3 tracking-widest uppercase font-bold">
               Domingo · 4:00 PM
             </p>
           </EditorialCard>
         </motion.div>
 
-        {/* Overlapping Tilted Polaroids + Bible Verse (exact match to 00:21-00:24 of video) */}
-        <div className="mt-16 sm:mt-20 flex flex-col items-center">
-          <div className="relative w-full max-w-80 h-85 sm:h-92.5 mx-auto">
+        {/* Overlapping Tilted Polaroids + Bible Verse (00:21-00:24 of video) */}
+        <div className="mt-20 sm:mt-24 flex flex-col items-center">
+          <div className="relative w-full max-w-85 sm:max-w-95 h-92 sm:h-100 mx-auto">
             {/* Top-Left Polaroid */}
             <motion.div
-              initial={{ opacity: 0, x: -25, rotate: -10 }}
-              whileInView={{ opacity: 1, x: 0, rotate: -5 }}
-              transition={{ duration: 0.75 }}
+              initial={{ opacity: 0, x: -30, rotate: -12 }}
+              whileInView={{ opacity: 1, x: 0, rotate: -6 }}
+              transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute top-0 left-2 w-48 sm:w-52 bg-white p-2.5 pb-8 shadow-[0_12px_28px_rgba(0,0,0,0.12)] border border-black/5 z-10"
+              className="absolute top-0 left-2 w-52 sm:w-58 bg-white p-3 pb-9 shadow-[0_16px_36px_rgba(20,28,10,0.18)] border border-black/5 z-10"
             >
               <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
                 <img
-                  src="/FOTOS/DSC04797.jpg.jpeg"
+                  src="/FOTOS/DSC02812.JPG.jpeg"
                   alt="David & Thalia"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-[center_35%]"
                 />
               </div>
             </motion.div>
 
             {/* Bottom-Right Polaroid */}
             <motion.div
-              initial={{ opacity: 0, x: 25, rotate: 10 }}
-              whileInView={{ opacity: 1, x: 0, rotate: 4 }}
-              transition={{ delay: 0.2, duration: 0.75 }}
+              initial={{ opacity: 0, x: 30, rotate: 12 }}
+              whileInView={{ opacity: 1, x: 0, rotate: 5 }}
+              transition={{ delay: 0.25, duration: 0.8 }}
               viewport={{ once: true }}
-              className="absolute bottom-2 right-2 w-52 sm:w-56 bg-white p-2.5 pb-8 shadow-[0_15px_32px_rgba(0,0,0,0.15)] border border-black/5 z-20"
+              className="absolute bottom-2 right-2 w-56 sm:w-62 bg-white p-3 pb-9 shadow-[0_20px_42px_rgba(20,28,10,0.22)] border border-black/5 z-20"
             >
               <div className="w-full aspect-square overflow-hidden bg-[#EBF0E4]">
                 <img
-                  src="/FOTOS/DSC04800.jpg.jpeg"
+                  src="/FOTOS/DSC02835.JPG.jpeg"
                   alt="David & Thalia"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-[center_25%]"
                 />
               </div>
             </motion.div>
@@ -109,17 +109,17 @@ export default function Message() {
 
           {/* Bible Verse: 1 Corintios 13:7 NTV */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.85 }}
             viewport={{ once: true }}
-            className="text-center max-w-sm mx-auto mt-8 px-4"
+            className="text-center max-w-md mx-auto mt-12 px-6"
           >
-            <p className="font-serif italic text-base sm:text-lg text-[#2C3325]/90 leading-relaxed">
+            <p className="font-serif italic text-lg sm:text-xl md:text-2xl text-[#1E2713] leading-relaxed">
               “El amor nunca se da por vencido, jamás pierde la fe, siempre tiene esperanzas y se
               mantiene firme en toda circunstancia.”
             </p>
-            <p className="font-serif text-xs sm:text-sm tracking-[0.2em] uppercase text-[#526330] font-semibold mt-3">
+            <p className="font-serif text-sm sm:text-base tracking-[0.25em] uppercase text-[#4A5D27] font-bold mt-4">
               1 Corintios 13:7 NTV
             </p>
           </motion.div>

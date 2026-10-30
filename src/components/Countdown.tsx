@@ -49,25 +49,31 @@ export default function Countdown() {
   ];
 
   return (
-    <section className="pb-16 pt-4 bg-[#F7F5F0] px-4">
+    <section className="pb-20 pt-6 bg-[#F7F5F0] px-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.85 }}
         viewport={{ once: true }}
-        className="max-w-md mx-auto text-center border-y border-[#3B4920]/20 py-8"
+        className="max-w-md mx-auto text-center border-y-2 border-[#3B4920]/25 py-10 bg-[#FAF9F5]/60 shadow-xs"
       >
-        <p className="font-serif text-xs sm:text-sm text-[#3B4920]/80 tracking-[0.18em] uppercase mb-5">
-          Celebraremos el capítulo más hermoso en:
+        <div className="flex items-center justify-center gap-2 mb-3 text-[#C59B47]">
+          <span className="w-8 h-px bg-[#C59B47]" />
+          <span className="text-xs">✦</span>
+          <span className="w-8 h-px bg-[#C59B47]" />
+        </div>
+
+        <p className="font-serif text-sm sm:text-base text-[#38481E] tracking-[0.22em] uppercase mb-8 font-semibold">
+          Celebraremos este gran día en:
         </p>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-xs mx-auto">
+        <div className="grid grid-cols-4 gap-3 sm:gap-6 max-w-sm mx-auto px-2">
           {timeBlocks.map((block, index) => (
             <div key={index} className="flex flex-col items-center">
-              <span className="text-3xl sm:text-5xl font-serif text-[#2C3325] tracking-wider leading-none">
+              <span className="text-4xl sm:text-6xl md:text-7xl font-serif text-[#18220E] font-bold tracking-tight leading-none drop-shadow-xs">
                 {block.value}
               </span>
-              <span className="mt-2 text-xs sm:text-sm font-serif text-[#2C3325]/70">
+              <span className="mt-3 text-xs sm:text-sm font-serif text-[#465727] font-semibold uppercase tracking-wider">
                 {block.label}
               </span>
             </div>
