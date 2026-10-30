@@ -22,6 +22,7 @@ const scriptFont = Great_Vibes({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://invitacion-boda.vercel.app"),
   title: "David & Thalia - Invitación de Boda",
   description: "Acompáñanos a celebrar el inicio de nuestra historia de amor - 15 de Noviembre 2026",
   openGraph: {
