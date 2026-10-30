@@ -23,17 +23,16 @@ const scriptFont = Great_Vibes({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://invitacion-boda-mauve.vercel.app"),
-  title: "David & Thalia - Invitación de Boda",
-  description: "Acompáñanos a celebrar el inicio de nuestra historia de amor - 15 de Noviembre 2026",
+  title: "David & Thalia — Invitación de Boda",
+  description: "Acompáñanos a celebrar el inicio de nuestra historia de amor · Domingo 15 de Noviembre de 2026",
   openGraph: {
-    title: "David & Thalia - ¡Nos Casamos!",
-    description: "Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia. Descubre tu invitación aquí.",
-    url: "https://invitacion-boda-mauve.vercel.app",
+    title: "✦ David & Thalia — ¡Nos Casamos!",
+    description: "“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.” · 15 de Noviembre de 2026",
     siteName: "Boda David & Thalia",
     images: [
       {
-        url: "https://invitacion-boda-mauve.vercel.app/portada.jpg",
-        secureUrl: "https://invitacion-boda-mauve.vercel.app/portada.jpg",
+        url: "https://invitacion-boda-mauve.vercel.app/portada.jpg?v=2",
+        secureUrl: "https://invitacion-boda-mauve.vercel.app/portada.jpg?v=2",
         width: 1200,
         height: 630,
         type: "image/jpeg",
@@ -45,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "David & Thalia - ¡Nos Casamos!",
-    description: "Acompáñanos a celebrar nuestra boda este 15 de Noviembre de 2026.",
-    images: ["https://invitacion-boda-mauve.vercel.app/portada.jpg"],
+    title: "✦ David & Thalia — ¡Nos Casamos!",
+    description: "Acompáñanos a celebrar nuestra boda este Domingo 15 de Noviembre de 2026.",
+    images: ["https://invitacion-boda-mauve.vercel.app/portada.jpg?v=2"],
   },
 };
 

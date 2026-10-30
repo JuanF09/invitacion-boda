@@ -29,17 +29,15 @@ export async function generateMetadata({
   }
 
   const siteUrl = "https://invitacion-boda-mauve.vercel.app";
-  const invitationUrl = `${siteUrl}/invitacion/${resolvedParams.id}`;
-  const photoUrl = `${siteUrl}/portada.jpg`;
+  const photoUrl = `${siteUrl}/portada.jpg?v=2`;
 
   return {
     metadataBase: new URL(siteUrl),
-    title: `💍 Invitación para ${guestName} | Boda David & Thalia`,
+    title: `✦ Invitación para ${guestName} | Boda David & Thalia`,
     description: `Acompáñanos a celebrar nuestra boda este Domingo 15 de Noviembre de 2026 a las 4:00 PM en el Club del Comercio (Salón Patio de los Cujíes).`,
     openGraph: {
-      title: `💍 ${guestName}, tienes una invitación de boda`,
+      title: `✦ ${guestName}, tienes una invitación de boda`,
       description: `“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.” David & Thalia · 15 · Noviembre · 2026`,
-      url: invitationUrl,
       siteName: "Boda David & Thalia",
       images: [
         {
@@ -56,8 +54,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `Invitación de Boda para ${guestName}`,
-      description: "David & Thalia — 15 de Noviembre de 2026. Club del Comercio.",
+      title: `✦ Invitación de Boda para ${guestName}`,
+      description: "David & Thalia — 15 de Noviembre de 2026 · Club del Comercio.",
       images: [photoUrl],
     },
   };

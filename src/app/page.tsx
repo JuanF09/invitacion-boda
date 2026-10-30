@@ -262,33 +262,34 @@ export default function Home() {
     const parsed = parseGuestObservation(guest.observation);
     const passesText =
       parsed.maxPasses === 1 ? "1 pase personal" : `${parsed.maxPasses} pases reservados`;
-    const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
+    // ?boda=dt fuerza a WhatsApp a refrescar su caché y cargar la tarjeta con foto inmediatamente
+    const invitationUrl = `${baseUrl}/invitacion/${guest.id}?boda=dt`;
 
-    // Al poner el enlace arriba del todo, WhatsApp genera de inmediato la tarjeta con la foto en la parte superior
     return `${invitationUrl}
 
-¡Hola, *${guest.name}*! ✨
+✦ *NUESTRA BODA — DAVID & THALIA* ✦
+
+¡Hola, *${guest.name}*!
 
 Hay momentos en la vida que se convierten en recuerdos eternos y sueños que Dios hace realidad.
 
-*“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.”* ✨
+*“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.”*
 
-Hoy, con el corazón lleno de gratitud y emoción, nos preparamos para dar el paso más importante de nuestras vidas y comenzar juntos una hermosa historia de amor. Porque has sido una persona muy especial en nuestro camino, no podríamos imaginar celebrar este gran día sin tu compañía y bendición.
+Hoy, con el corazón lleno de gratitud y emoción, nos preparamos para dar el paso más importante de nuestras vidas y comenzar juntos una hermosa historia de amor. Porque eres una persona muy especial en nuestro camino, sería un honor inmenso contar con tu compañía y bendición en este gran día.
 
-Hemos reservado con muchísimo cariño *${passesText}* para ti en este día tan esperado.
+Hemos preparado con muchísimo cariño *${passesText}* para ti:
 
-💍 *NUESTRA BODA — DAVID & THALIA*
-🗓️ *Fecha:* Domingo, 15 de Noviembre de 2026
-⏰ *Hora:* 4:00 PM
-📍 *Lugar:* Club del Comercio — Salón Patio de los Cujíes
-👗 *Código de vestimenta:* Formal Elegante (Reservamos con amor el verde olivo, beige y blanco)
-✉️ *Detalle de bendición:* Lluvia de sobres
-🌿 *Nota:* Evento exclusivo para adultos
+▪ *Fecha:* Domingo, 15 de Noviembre de 2026
+▪ *Hora:* 4:00 PM
+▪ *Lugar:* Club del Comercio — Salón Patio de los Cujíes
+▪ *Código de vestimenta:* Formal Elegante *(Reservamos con amor el verde olivo, beige y blanco)*
+▪ *Detalle de bendición:* Lluvia de sobres
+▪ *Recepción:* Evento exclusivo para adultos
 
-*(Agradecemos de corazón confirmar tu asistencia dentro de la tarjeta antes del 06 de noviembre)*
+_Te agradecemos de corazón abrir tu tarjeta interactiva en el enlace superior y confirmar tu asistencia antes del *06 de noviembre*._
 
 Con todo nuestro amor y bendición,
-*David & Thalia* 🌿`;
+*David & Thalia* ♥`;
   };
 
   const openWhatsAppWithPhone = (guest: Guest, rawPhone: string) => {
@@ -300,7 +301,11 @@ Con todo nuestro amor y bendición,
     const message = buildWhatsAppMessage(guest, baseUrl);
     const encodedMessage = encodeURIComponent(message);
 
-    window.open(`https://wa.me/${cleanPhone}?text=${encodedMessage}`, "_blank");
+    // api.whatsapp.com/send preserva el 100% de la codificación UTF-8 en Windows y móviles sin mostrar rombos ()
+    window.open(
+      `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedMessage}`,
+      "_blank"
+    );
     setPhoneChoiceGuest(null);
   };
 
@@ -324,7 +329,7 @@ Con todo nuestro amor y bendición,
 
   const handleCopyLink = (guest: Guest) => {
     const baseUrl = getSiteBaseUrl();
-    const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
+    const invitationUrl = `${baseUrl}/invitacion/${guest.id}?boda=dt`;
     navigator.clipboard.writeText(invitationUrl);
     alert(`¡Enlace interactivo de ${guest.name} copiado al portapapeles!`);
   };
