@@ -1,7 +1,57 @@
+import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
 import { FALLBACK_GUESTS_WITH_IDS } from "@/lib/defaultGuests";
 import InvitationClient from "./InvitationClient";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const localGuest =
+    resolvedParams.id === "demo"
+      ? FALLBACK_GUESTS_WITH_IDS[0]
+      : FALLBACK_GUESTS_WITH_IDS.find((g) => g.id === resolvedParams.id);
+
+  let guestName = localGuest?.name || "Invitado Especial";
+
+  try {
+    const { data } = await supabase
+      .from("guests")
+      .select("name")
+      .eq("id", resolvedParams.id)
+      .single();
+    if (data?.name) guestName = data.name;
+  } catch {
+    // fallback
+  }
+
+  return {
+    title: `💍 Invitación para ${guestName} | Boda David & Thalia`,
+    description: `Acompáñanos a celebrar nuestra boda este Domingo 15 de Noviembre de 2026 a las 4:00 PM en el Club del Comercio (Salón Patio de los Cujíes).`,
+    openGraph: {
+      title: `💍 ${guestName}, estás invitado(a) a nuestra boda`,
+      description: `“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.” David & Thalia · 15 · Noviembre · 2026.`,
+      images: [
+        {
+          url: "/FOTOS/DSC02860.JPG.jpeg",
+          width: 1200,
+          height: 800,
+          alt: "David & Thalia - Boda 15 de Noviembre 2026",
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `Invitación de Boda para ${guestName}`,
+      description: "David & Thalia — 15 de Noviembre de 2026. Club del Comercio.",
+      images: ["/FOTOS/DSC02860.JPG.jpeg"],
+    },
+  };
+}
 
 export default async function InvitationPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;

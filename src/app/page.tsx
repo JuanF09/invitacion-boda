@@ -17,6 +17,7 @@ import {
   Users,
   Database,
   AlertTriangle,
+  MessageCircle,
 } from "lucide-react";
 import { parseGuestObservation } from "@/components/RSVPForm";
 
@@ -242,14 +243,46 @@ export default function Home() {
     }
   };
 
+  const buildWhatsAppMessage = (guest: Guest, baseUrl: string) => {
+    const parsed = parseGuestObservation(guest.observation);
+    const passesText =
+      parsed.maxPasses === 1 ? "1 pase personal" : `${parsed.maxPasses} pases reservados`;
+    const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
+
+    return `¡Hola, *${guest.name}*! 🤍🕊️
+
+Hay momentos en la vida que se convierten en recuerdos eternos y sueños que Dios hace realidad.
+
+*“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.”* ✨
+
+Hoy, con el corazón lleno de gratitud y emoción, nos preparamos para dar el paso más importante de nuestras vidas y comenzar juntos una hermosa historia de amor. Porque has sido una persona muy especial en nuestro camino, no podríamos imaginar celebrar este gran día sin tu compañía y bendición.
+
+Hemos reservado con muchísimo cariño *${passesText}* para ti en este día tan esperado.
+
+💍 *NUESTRA BODA — DAVID & THALIA*
+🗓️ *Fecha:* Domingo, 15 de Noviembre de 2026
+⏰ *Hora:* 4:00 PM
+📍 *Lugar:* Club del Comercio — Salón Patio de los Cujíes
+👗 *Código de vestimenta:* Formal Elegante (Reservamos con amor el verde olivo, beige y blanco)
+✉️ *Detalle de bendición:* Lluvia de sobres
+🌿 *Nota:* Evento exclusivo para adultos
+
+💌 *Abre tu invitación digital interactiva aquí:*
+👉 ${invitationUrl}
+
+*(Agradecemos de corazón confirmar tu asistencia dentro de la tarjeta antes del 06 de noviembre)*
+
+Con todo nuestro amor y bendición,
+*David & Thalia* 🤍🌿`;
+  };
+
   const openWhatsAppWithPhone = (guest: Guest, rawPhone: string) => {
     let cleanPhone = rawPhone.replace(/\D/g, "");
     if (cleanPhone.length === 10 && cleanPhone.startsWith("3")) {
       cleanPhone = `57${cleanPhone}`;
     }
     const baseUrl = window.location.origin;
-    const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
-    const message = `¡Hola ${guest.name}! 🤍\n\nHay momentos que se convierten en recuerdos eternos y sueños que Dios hace realidad. Hoy nuestros corazones se preparan para dar el sí más importante de nuestras vidas y nos encantaría que nos acompañaras a celebrar nuestra boda.\n\nDescubre tu invitación personalizada y confirma tu asistencia antes del 06 de noviembre en el siguiente enlace:\n\n✨ ${invitationUrl}\n\nCon cariño,\nDavid & Thalia`;
+    const message = buildWhatsAppMessage(guest, baseUrl);
     const encodedMessage = encodeURIComponent(message);
 
     window.open(`https://wa.me/${cleanPhone}?text=${encodedMessage}`, "_blank");
@@ -278,7 +311,14 @@ export default function Home() {
     const baseUrl = window.location.origin;
     const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
     navigator.clipboard.writeText(invitationUrl);
-    alert(`¡Enlace de ${guest.name} copiado al portapapeles!`);
+    alert(`¡Enlace interactivo de ${guest.name} copiado al portapapeles!`);
+  };
+
+  const handleCopyFullMessage = (guest: Guest) => {
+    const baseUrl = window.location.origin;
+    const fullMessage = buildWhatsAppMessage(guest, baseUrl);
+    navigator.clipboard.writeText(fullMessage);
+    alert(`¡Mensaje completo y emotivo de ${guest.name} copiado al portapapeles! Puedes pegarlo directamente en WhatsApp.`);
   };
 
   // --- Lógica del CRUD ---
@@ -610,6 +650,13 @@ export default function Home() {
                             title="Copiar enlace de invitación"
                           >
                             <Copy className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleCopyFullMessage(guest)}
+                            className="inline-flex items-center justify-center w-8 h-8 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-lg transition-colors cursor-pointer"
+                            title="Copiar mensaje emotivo completo con foto para WhatsApp"
+                          >
+                            <MessageCircle className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleSendWhatsApp(guest)}
