@@ -243,13 +243,32 @@ export default function Home() {
     }
   };
 
+  const getSiteBaseUrl = () => {
+    if (typeof window !== "undefined") {
+      // Si estamos en localhost o red local, WhatsApp no puede rastrear tu PC.
+      // Por eso usamos el dominio público en Vercel para que WhatsApp cargue la foto de inmediato.
+      if (
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.hostname.startsWith("192.168.")
+      ) {
+        return process.env.NEXT_PUBLIC_SITE_URL || "https://invitacion-boda.vercel.app";
+      }
+      return window.location.origin;
+    }
+    return process.env.NEXT_PUBLIC_SITE_URL || "https://invitacion-boda.vercel.app";
+  };
+
   const buildWhatsAppMessage = (guest: Guest, baseUrl: string) => {
     const parsed = parseGuestObservation(guest.observation);
     const passesText =
       parsed.maxPasses === 1 ? "1 pase personal" : `${parsed.maxPasses} pases reservados`;
     const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
 
-    return `¡Hola, *${guest.name}*! 🤍🕊️
+    // Al poner el enlace arriba del todo, WhatsApp genera de inmediato la tarjeta con la foto en la parte superior
+    return `${invitationUrl}
+
+¡Hola, *${guest.name}*! 🤍🕊️
 
 Hay momentos en la vida que se convierten en recuerdos eternos y sueños que Dios hace realidad.
 
@@ -267,9 +286,6 @@ Hemos reservado con muchísimo cariño *${passesText}* para ti en este día tan 
 ✉️ *Detalle de bendición:* Lluvia de sobres
 🌿 *Nota:* Evento exclusivo para adultos
 
-💌 *Abre tu invitación digital interactiva aquí:*
-👉 ${invitationUrl}
-
 *(Agradecemos de corazón confirmar tu asistencia dentro de la tarjeta antes del 06 de noviembre)*
 
 Con todo nuestro amor y bendición,
@@ -281,7 +297,7 @@ Con todo nuestro amor y bendición,
     if (cleanPhone.length === 10 && cleanPhone.startsWith("3")) {
       cleanPhone = `57${cleanPhone}`;
     }
-    const baseUrl = window.location.origin;
+    const baseUrl = getSiteBaseUrl();
     const message = buildWhatsAppMessage(guest, baseUrl);
     const encodedMessage = encodeURIComponent(message);
 
@@ -308,17 +324,17 @@ Con todo nuestro amor y bendición,
   };
 
   const handleCopyLink = (guest: Guest) => {
-    const baseUrl = window.location.origin;
+    const baseUrl = getSiteBaseUrl();
     const invitationUrl = `${baseUrl}/invitacion/${guest.id}`;
     navigator.clipboard.writeText(invitationUrl);
     alert(`¡Enlace interactivo de ${guest.name} copiado al portapapeles!`);
   };
 
   const handleCopyFullMessage = (guest: Guest) => {
-    const baseUrl = window.location.origin;
+    const baseUrl = getSiteBaseUrl();
     const fullMessage = buildWhatsAppMessage(guest, baseUrl);
     navigator.clipboard.writeText(fullMessage);
-    alert(`¡Mensaje completo y emotivo de ${guest.name} copiado al portapapeles! Puedes pegarlo directamente en WhatsApp.`);
+    alert(`¡Mensaje completo para WhatsApp de ${guest.name} copiado al portapapeles!`);
   };
 
   // --- Lógica del CRUD ---

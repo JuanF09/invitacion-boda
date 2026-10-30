@@ -28,27 +28,37 @@ export async function generateMetadata({
     // fallback
   }
 
+  const siteUrl = "https://invitacion-boda.vercel.app";
+  const invitationUrl = `${siteUrl}/invitacion/${resolvedParams.id}`;
+  const photoUrl = `${siteUrl}/portada.jpg`;
+
   return {
+    metadataBase: new URL(siteUrl),
     title: `💍 Invitación para ${guestName} | Boda David & Thalia`,
     description: `Acompáñanos a celebrar nuestra boda este Domingo 15 de Noviembre de 2026 a las 4:00 PM en el Club del Comercio (Salón Patio de los Cujíes).`,
     openGraph: {
-      title: `💍 ${guestName}, estás invitado(a) a nuestra boda`,
-      description: `“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.” David & Thalia · 15 · Noviembre · 2026.`,
+      title: `💍 ${guestName}, tienes una invitación de boda`,
+      description: `“No fue casualidad, fue el propósito de Dios encontrando su tiempo en nuestras vidas.” David & Thalia · 15 · Noviembre · 2026`,
+      url: invitationUrl,
+      siteName: "Boda David & Thalia",
       images: [
         {
-          url: "/FOTOS/DSC02860.JPG.jpeg",
+          url: photoUrl,
+          secureUrl: photoUrl,
           width: 1200,
           height: 800,
-          alt: "David & Thalia - Boda 15 de Noviembre 2026",
+          type: "image/jpeg",
+          alt: "David & Thalia frente a la capilla colonial",
         },
       ],
+      locale: "es_CO",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: `Invitación de Boda para ${guestName}`,
       description: "David & Thalia — 15 de Noviembre de 2026. Club del Comercio.",
-      images: ["/FOTOS/DSC02860.JPG.jpeg"],
+      images: [photoUrl],
     },
   };
 }

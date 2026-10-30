@@ -28,8 +28,26 @@ export const metadata: Metadata = {
   openGraph: {
     title: "David & Thalia - ¡Nos Casamos!",
     description: "Nos encantaría que nos acompañaras a celebrar el inicio de esta nueva historia. Descubre tu invitación aquí.",
-    images: ["/FOTOS/DSC02860.JPG.jpeg"],
+    url: "https://invitacion-boda.vercel.app",
+    siteName: "Boda David & Thalia",
+    images: [
+      {
+        url: "https://invitacion-boda.vercel.app/portada.jpg",
+        secureUrl: "https://invitacion-boda.vercel.app/portada.jpg",
+        width: 1200,
+        height: 800,
+        type: "image/jpeg",
+        alt: "David & Thalia frente a la capilla colonial",
+      },
+    ],
+    locale: "es_CO",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "David & Thalia - ¡Nos Casamos!",
+    description: "Acompáñanos a celebrar nuestra boda este 15 de Noviembre de 2026.",
+    images: ["https://invitacion-boda.vercel.app/portada.jpg"],
   },
 };
 
