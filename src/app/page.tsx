@@ -245,18 +245,17 @@ export default function Home() {
 
   const getSiteBaseUrl = () => {
     if (typeof window !== "undefined") {
-      // Si estamos en localhost o red local, WhatsApp no puede rastrear tu PC.
-      // Por eso usamos el dominio público en Vercel para que WhatsApp cargue la foto de inmediato.
+      // Usar siempre el dominio real en Vercel para que WhatsApp pueda cargar la foto de portada
       if (
         window.location.hostname === "localhost" ||
         window.location.hostname === "127.0.0.1" ||
         window.location.hostname.startsWith("192.168.")
       ) {
-        return process.env.NEXT_PUBLIC_SITE_URL || "https://invitacion-boda.vercel.app";
+        return "https://invitacion-boda-mauve.vercel.app";
       }
       return window.location.origin;
     }
-    return process.env.NEXT_PUBLIC_SITE_URL || "https://invitacion-boda.vercel.app";
+    return "https://invitacion-boda-mauve.vercel.app";
   };
 
   const buildWhatsAppMessage = (guest: Guest, baseUrl: string) => {
@@ -268,7 +267,7 @@ export default function Home() {
     // Al poner el enlace arriba del todo, WhatsApp genera de inmediato la tarjeta con la foto en la parte superior
     return `${invitationUrl}
 
-¡Hola, *${guest.name}*! 🤍🕊️
+¡Hola, *${guest.name}*! ✨
 
 Hay momentos en la vida que se convierten en recuerdos eternos y sueños que Dios hace realidad.
 
@@ -289,7 +288,7 @@ Hemos reservado con muchísimo cariño *${passesText}* para ti en este día tan 
 *(Agradecemos de corazón confirmar tu asistencia dentro de la tarjeta antes del 06 de noviembre)*
 
 Con todo nuestro amor y bendición,
-*David & Thalia* 🤍🌿`;
+*David & Thalia* 🌿`;
   };
 
   const openWhatsAppWithPhone = (guest: Guest, rawPhone: string) => {

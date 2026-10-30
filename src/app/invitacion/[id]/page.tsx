@@ -28,7 +28,7 @@ export async function generateMetadata({
     // fallback
   }
 
-  const siteUrl = "https://invitacion-boda.vercel.app";
+  const siteUrl = "https://invitacion-boda-mauve.vercel.app";
   const invitationUrl = `${siteUrl}/invitacion/${resolvedParams.id}`;
   const photoUrl = `${siteUrl}/portada.jpg`;
 
@@ -46,7 +46,7 @@ export async function generateMetadata({
           url: photoUrl,
           secureUrl: photoUrl,
           width: 1200,
-          height: 800,
+          height: 630,
           type: "image/jpeg",
           alt: "David & Thalia frente a la capilla colonial",
         },
