@@ -1,53 +1,76 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useImperativeHandle, forwardRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Pause } from "lucide-react";
 
+export interface AudioPlayerHandle {
+  playFromUserGesture: () => void;
+}
+
 interface AudioPlayerProps {
-  autoPlayTrigger?: boolean;
+  showControls?: boolean;
 }
 
 const YOUTUBE_VIDEO_ID = "QXfEg03FX4M";
 
-export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProps) {
+const AudioPlayer = forwardRef<AudioPlayerHandle, AudioPlayerProps>(function AudioPlayer(
+  { showControls = false },
+  ref
+) {
   const [isPlaying, setIsPlaying] = useState(false);
   const hasStartedRef = useRef(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const sendCommand = (func: "playVideo" | "pauseVideo") => {
-    if (iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage(
-        JSON.stringify({ event: "command", func, args: "" }),
-        "*"
-      );
-    }
-  };
+  const sendCommand = useCallback(
+    (func: "playVideo" | "pauseVideo" | "unMute" | "setVolume", args: unknown = "") => {
+      if (iframeRef.current?.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: "command", func, args }),
+          "*"
+        );
+      }
+    },
+    []
+  );
+
+  const triggerPlay = useCallback(() => {
+    hasStartedRef.current = true;
+    setIsPlaying(true);
+    sendCommand("unMute");
+    sendCommand("setVolume", [100]);
+    sendCommand("playVideo");
+  }, [sendCommand]);
+
+  useImperativeHandle(ref, () => ({
+    playFromUserGesture: () => {
+      // Llamado de forma 100% síncrona dentro del clic del usuario al tocar el sobre
+      triggerPlay();
+      // Reintentos de respaldo por si la conexión móvil aún estaba terminando de inicializar el reproductor
+      setTimeout(() => triggerPlay(), 250);
+      setTimeout(() => triggerPlay(), 750);
+      setTimeout(() => triggerPlay(), 1500);
+    },
+  }));
 
   useEffect(() => {
-    if (autoPlayTrigger && !hasStartedRef.current) {
-      hasStartedRef.current = true;
-
-      const t0 = setTimeout(() => {
-        setIsPlaying(true);
-        sendCommand("playVideo");
-      }, 150);
-      const t1 = setTimeout(() => sendCommand("playVideo"), 800);
-      const t2 = setTimeout(() => sendCommand("playVideo"), 1600);
-
-      return () => {
-        clearTimeout(t0);
-        clearTimeout(t1);
-        clearTimeout(t2);
-      };
+    if (showControls && !hasStartedRef.current) {
+      const t = setTimeout(() => triggerPlay(), 100);
+      return () => clearTimeout(t);
     }
-  }, [autoPlayTrigger]);
+  }, [showControls, triggerPlay]);
 
   const togglePlay = () => {
     const nextIsPlaying = !isPlaying;
     hasStartedRef.current = true;
     setIsPlaying(nextIsPlaying);
-    sendCommand(nextIsPlaying ? "playVideo" : "pauseVideo");
+    if (nextIsPlaying) {
+      sendCommand("unMute");
+      sendCommand("setVolume", [100]);
+      sendCommand("playVideo");
+    } else {
+      sendCommand("pauseVideo");
+    }
   };
 
   return (
@@ -56,23 +79,23 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
         ref={iframeRef}
         width="1"
         height="1"
-        src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?enablejsapi=1&autoplay=0&loop=1&playlist=${YOUTUBE_VIDEO_ID}`}
+        src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?enablejsapi=1&autoplay=0&playsinline=1&loop=1&playlist=${YOUTUBE_VIDEO_ID}&controls=0&rel=0`}
         title="Música de Boda - David & Thalia"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         className="fixed opacity-0 pointer-events-none -z-50 w-px h-px"
       />
 
-      {autoPlayTrigger && (
+      {showControls && (
         <motion.button
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.4 }}
+          transition={{ delay: 0.3, duration: 0.4 }}
           onClick={togglePlay}
           aria-label={isPlaying ? "Pausar música" : "Reproducir música"}
-          className={`fixed top-4 left-4 z-50 w-10 h-10 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 backdrop-blur-md cursor-pointer ${
+          className={`fixed top-4 left-4 z-50 w-11 h-11 rounded-full flex items-center justify-center shadow-lg border transition-all duration-300 backdrop-blur-md cursor-pointer ${
             isPlaying
-              ? "bg-[#FAF9F5]/85 text-[#3B4920] border-[#3B4920]/30"
+              ? "bg-[#FAF9F5]/90 text-[#3B4920] border-[#3B4920]/40"
               : "bg-[#526330] text-white border-white/30"
           }`}
         >
@@ -107,4 +130,6 @@ export default function AudioPlayer({ autoPlayTrigger = false }: AudioPlayerProp
       )}
     </>
   );
-}
+});
+
+export default AudioPlayer;

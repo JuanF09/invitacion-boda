@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 import Envelope from "@/components/Envelope";
@@ -11,23 +11,32 @@ import Countdown from "@/components/Countdown";
 import Details from "@/components/Details";
 import RSVPForm, { parseGuestObservation } from "@/components/RSVPForm";
 import type { GuestRecord } from "@/lib/defaultGuests";
-import AudioPlayer from "@/components/AudioPlayer";
+import AudioPlayer, { type AudioPlayerHandle } from "@/components/AudioPlayer";
 import GoldParticles from "@/components/GoldParticles";
 
 export default function InvitationClient({ guest }: { guest: GuestRecord }) {
   const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
+  const [hasAudioStarted, setHasAudioStarted] = useState(false);
+  const audioRef = useRef<AudioPlayerHandle>(null);
   const { maxPasses } = parseGuestObservation(guest?.observation);
+
+  const handleStartAudio = () => {
+    setHasAudioStarted(true);
+    audioRef.current?.playFromUserGesture();
+  };
 
   return (
     <main className="flex flex-col min-h-screen bg-[#F7F5F0] relative">
       <GoldParticles />
-      <AudioPlayer autoPlayTrigger={isEnvelopeOpened} />
+      <AudioPlayer ref={audioRef} showControls={hasAudioStarted || isEnvelopeOpened} />
 
       {!isEnvelopeOpened && (
         <Envelope
           guestName={guest?.name}
           guestPasses={maxPasses}
+          onStartAudio={handleStartAudio}
           onOpen={() => {
+            handleStartAudio();
             setIsEnvelopeOpened(true);
             window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
           }}

@@ -8,19 +8,27 @@ import { Sparkles } from "lucide-react";
 interface EnvelopeProps {
   guestName?: string;
   guestPasses?: number;
+  onStartAudio?: () => void;
   onOpen: () => void;
 }
 
-export default function Envelope({ guestName, guestPasses = 1, onOpen }: EnvelopeProps) {
+export default function Envelope({
+  guestName,
+  guestPasses = 1,
+  onStartAudio,
+  onOpen,
+}: EnvelopeProps) {
   const [stage, setStage] = useState<"closed" | "opened" | "exiting">("closed");
 
   const handleOpenFlap = () => {
     if (stage === "closed") {
+      onStartAudio?.();
       setStage("opened");
     }
   };
 
   const handleEnterInvitation = () => {
+    onStartAudio?.();
     setStage("exiting");
     setTimeout(() => {
       onOpen();
