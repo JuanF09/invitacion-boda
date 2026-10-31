@@ -52,20 +52,28 @@ export default function Message() {
               </p>
             </div>
 
-            <p className="font-serif text-sm sm:text-base text-[#38481E] mt-8 mb-3 tracking-widest uppercase font-medium">
+            <p className="font-serif text-sm sm:text-base text-[#38481E] mt-8 mb-3 tracking-widest uppercase font-semibold">
               Que se celebrará el próximo
             </p>
 
-            {/* Framed Date (15 - 11 - 2026) */}
-            <div className="inline-block border-y-2 border-[#3B4920]/70 px-8 py-3 my-2 bg-[#FAF8F5]">
-              <span className="font-serif text-3xl sm:text-4xl md:text-5xl tracking-[0.22em] text-[#1B2412] font-bold">
-                15 · 11 · 2026
+            {/* Single-line Date: 15 - NOV - 2026 */}
+            <div className="w-full max-w-xs mx-auto border-y-2 border-[#3B4920]/70 py-3.5 px-3 my-2 bg-[#FAF8F5] flex items-center justify-center">
+              <span className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-[0.14em] text-[#141C0A] font-extrabold whitespace-nowrap">
+                15 - NOV - 2026
               </span>
             </div>
 
-            <p className="font-serif text-base sm:text-lg md:text-xl text-[#3B4920] mt-3 tracking-widest uppercase font-bold">
-              Domingo · 4:00 PM
-            </p>
+            {/* Highlighted Day & Time (4:00 PM stands out clearly in sans/lining numerals) */}
+            <div className="mt-4 flex flex-col items-center gap-1.5">
+              <span className="font-serif text-sm sm:text-base text-[#4A5D27] tracking-[0.28em] uppercase font-bold">
+                DOMINGO
+              </span>
+              <div className="inline-flex items-center justify-center px-6 py-1.5 rounded-full bg-[#4A5B2B] text-white shadow-md border border-[#C59B47]/50">
+                <span className="font-sans text-lg sm:text-xl md:text-2xl tracking-[0.16em] font-bold">
+                  4:00 PM
+                </span>
+              </div>
+            </div>
           </EditorialCard>
         </motion.div>
 

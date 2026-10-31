@@ -34,9 +34,14 @@ export default function Details() {
 
             <div className="w-12 h-0.5 bg-[#C59B47] mx-auto my-4" />
 
-            <p className="font-serif text-lg sm:text-xl md:text-2xl text-[#3B4920] font-bold">
-              Domingo, 15 de Noviembre · 4:00 PM
-            </p>
+            <div className="flex flex-col items-center gap-2 my-3">
+              <p className="font-serif text-lg sm:text-xl text-[#1E2713] font-bold tracking-widest uppercase whitespace-nowrap">
+                Domingo · 15 - NOV - 2026
+              </p>
+              <span className="inline-block px-5 py-1 rounded-full bg-[#EBF0E4] border border-[#3B4920]/35 font-sans text-base sm:text-lg md:text-xl text-[#2C3816] font-extrabold tracking-[0.14em]">
+                4:00 PM
+              </span>
+            </div>
 
             <p className="font-serif text-base sm:text-lg md:text-xl text-[#1E2713] mt-3 leading-relaxed max-w-xs mx-auto">
               Club del Comercio

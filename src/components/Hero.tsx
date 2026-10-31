@@ -52,11 +52,11 @@ export default function Hero({ guestName }: { guestName?: string }) {
         </h1>
 
         <div className="flex items-center justify-center gap-3 mt-4">
-          <span className="w-12 sm:w-20 h-px bg-[#E7C97B]/70" />
-          <span className="font-serif italic text-sm sm:text-base text-[#FAF8F5] tracking-[0.2em]">
-            15 · Noviembre · 2026
+          <span className="w-10 sm:w-16 h-px bg-[#E7C97B]/80" />
+          <span className="font-serif text-sm sm:text-base md:text-lg text-[#FAF8F5] font-semibold tracking-[0.22em] whitespace-nowrap">
+            15 - NOV - 2026
           </span>
-          <span className="w-12 sm:w-20 h-px bg-[#E7C97B]/70" />
+          <span className="w-10 sm:w-16 h-px bg-[#E7C97B]/80" />
         </div>
       </motion.div>
 

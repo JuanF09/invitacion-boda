@@ -36,195 +36,207 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
       transition={{ duration: 0.65, ease: "easeInOut" }}
       className="fixed inset-0 z-50 flex flex-col items-center justify-between py-6 sm:py-8 px-4 overflow-hidden select-none"
       style={{
-        background: "linear-gradient(180deg, #F5F3EC 0%, #ECE9DF 40%, #E3E1D4 75%, #D7D5C5 100%)",
+        background: "linear-gradient(180deg, #F8F6F1 0%, #EFECE3 45%, #E5E1D5 100%)",
       }}
     >
-      {/* SVG Paper Texture & Realistic Depth Filter Definitions */}
+      {/* Realistic 3D Envelope Drop Shadow Definition */}
       <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
-        <filter id="paper-grain-realistic" x="0%" y="0%" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" />
-          <feColorMatrix type="matrix" values="0 0 0 0 0.25   0 0 0 0 0.32   0 0 0 0 0.15  0 0 0 0.12 0" />
-          <feBlend in="SourceGraphic" in2="noise" mode="multiply" />
-        </filter>
         <filter id="realistic-envelope-shadow" x="-15%" y="-15%" width="130%" height="145%">
-          <feDropShadow dx="0" dy="28" stdDeviation="30" floodColor="#121A08" floodOpacity="0.45" />
-          <feDropShadow dx="0" dy="10" stdDeviation="12" floodColor="#121A08" floodOpacity="0.25" />
+          <feDropShadow dx="0" dy="26" stdDeviation="28" floodColor="#151E0A" floodOpacity="0.4" />
+          <feDropShadow dx="0" dy="8" stdDeviation="10" floodColor="#151E0A" floodOpacity="0.22" />
         </filter>
       </svg>
 
-      {/* LUXURY BOTANICAL WATERCOLOR SCENERY (Lush Olive & Eucalyptus Greenery - NO MOUNTAINS) */}
+      {/* CLEAN EDITORIAL BOTANICAL FRAME & SOFT AMBIENT LIGHT (100% Free Center Zone for Text Legibility) */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden z-0">
-        {/* Soft atmospheric ambient light watercolor washes */}
+        {/* Soft atmospheric corner glows */}
         <div
-          className="absolute -top-32 -left-32 w-120 h-120 rounded-full opacity-35 blur-3xl"
+          className="absolute -top-36 -left-36 w-110 h-110 rounded-full opacity-25 blur-3xl"
           style={{ background: "radial-gradient(circle, #7D925A 0%, transparent 70%)" }}
         />
         <div
-          className="absolute -top-32 -right-32 w-120 h-120 rounded-full opacity-30 blur-3xl"
+          className="absolute -top-36 -right-36 w-110 h-110 rounded-full opacity-25 blur-3xl"
           style={{ background: "radial-gradient(circle, #97A977 0%, transparent 70%)" }}
         />
         <div
-          className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-180 h-95 rounded-full opacity-35 blur-3xl"
-          style={{ background: "radial-gradient(circle, #839762 0%, #A4B58A 50%, transparent 80%)" }}
+          className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-160 h-80 rounded-full opacity-25 blur-3xl"
+          style={{ background: "radial-gradient(circle, #839762 0%, transparent 75%)" }}
         />
 
-        {/* TOP-LEFT BOTANICAL WATERCOLOR OLIVE & EUCALYPTUS BRANCH */}
-        <svg
-          viewBox="0 0 360 360"
-          className="absolute -top-6 -left-6 w-60 sm:w-84 md:w-96 h-auto opacity-85"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Main Arched Stem */}
-          <path d="M-20 -20 Q140 40 190 200 T240 330" stroke="#3D4B22" strokeWidth="2.8" strokeLinecap="round" opacity="0.65" />
-          <path d="M-10 60 Q80 120 140 240" stroke="#4F602F" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
-          {/* Deep Olive Leaves */}
-          <g fill="#4E602C" opacity="0.8">
-            <path d="M70 45 C45 15, 100 5, 125 35 C130 55, 95 60, 70 45 Z" />
-            <path d="M135 75 C115 50, 165 30, 190 65 C195 90, 155 95, 135 75 Z" />
-            <path d="M165 150 C140 130, 185 100, 220 130 C235 155, 195 170, 165 150 Z" />
-            <path d="M195 225 C175 200, 225 180, 250 215 C260 240, 220 250, 195 225 Z" />
-            <path d="M45 100 C25 80, 70 60, 90 90 C100 115, 60 120, 45 100 Z" />
-            <path d="M100 175 C80 150, 130 135, 150 165 C160 190, 120 195, 100 175 Z" />
-          </g>
-          {/* Soft Sage Eucalyptus Rounded Leaves */}
-          <g fill="#7A8E5D" opacity="0.65">
-            <ellipse cx="100" cy="65" rx="24" ry="15" transform="rotate(-30 100 65)" />
-            <ellipse cx="165" cy="115" rx="26" ry="17" transform="rotate(-25 165 115)" />
-            <ellipse cx="205" cy="185" rx="28" ry="19" transform="rotate(-35 205 185)" />
-            <ellipse cx="75" cy="140" rx="22" ry="14" transform="rotate(20 75 140)" />
-          </g>
-          {/* Golden Olive Berries */}
-          <circle cx="115" cy="95" r="5" fill="#C59B47" opacity="0.9" />
-          <circle cx="180" cy="165" r="5" fill="#C59B47" opacity="0.9" />
-          <circle cx="145" cy="215" r="4.5" fill="#C59B47" opacity="0.9" />
-          {/* Delicate White Jasmine Flowers */}
-          <g transform="translate(140, 85)" fill="#FFFFFF" stroke="#D7D0C0" strokeWidth="0.8">
-            <circle cx="10" cy="10" r="4.5" fill="#FBF9F4" />
-            <ellipse cx="10" cy="4" rx="3.5" ry="5.5" />
-            <ellipse cx="10" cy="16" rx="3.5" ry="5.5" />
-            <ellipse cx="4" cy="10" rx="5.5" ry="3.5" />
-            <ellipse cx="16" cy="10" rx="5.5" ry="3.5" />
-            <circle cx="10" cy="10" r="2" fill="#E7C97B" />
-          </g>
-        </svg>
+        {/* Luminous Ivory Center Halo Behind Typography to Guarantee 100% Crisp Reading */}
+        <div
+          className="absolute inset-x-4 top-2 bottom-2 mx-auto max-w-xl rounded-full opacity-80 blur-2xl"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, #FDFCF9 0%, #F7F5EE 58%, transparent 100%)",
+          }}
+        />
 
-        {/* TOP-RIGHT BOTANICAL WATERCOLOR OLIVE & EUCALYPTUS BRANCH */}
-        <svg
-          viewBox="0 0 360 360"
-          className="absolute -top-6 -right-6 w-60 sm:w-84 md:w-96 h-auto opacity-85 scale-x-[-1]"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M-20 -20 Q140 40 190 200 T240 330" stroke="#3D4B22" strokeWidth="2.8" strokeLinecap="round" opacity="0.65" />
-          <path d="M-10 60 Q80 120 140 240" stroke="#4F602F" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
-          <g fill="#4E602C" opacity="0.8">
-            <path d="M70 45 C45 15, 100 5, 125 35 C130 55, 95 60, 70 45 Z" />
-            <path d="M135 75 C115 50, 165 30, 190 65 C195 90, 155 95, 135 75 Z" />
-            <path d="M165 150 C140 130, 185 100, 220 130 C235 155, 195 170, 165 150 Z" />
-            <path d="M195 225 C175 200, 225 180, 250 215 C260 240, 220 250, 195 225 Z" />
-          </g>
-          <g fill="#7A8E5D" opacity="0.65">
-            <ellipse cx="100" cy="65" rx="24" ry="15" transform="rotate(-30 100 65)" />
-            <ellipse cx="165" cy="115" rx="26" ry="17" transform="rotate(-25 165 115)" />
-            <ellipse cx="205" cy="185" rx="28" ry="19" transform="rotate(-35 205 185)" />
-          </g>
-          <circle cx="115" cy="95" r="5" fill="#C59B47" opacity="0.9" />
-          <circle cx="180" cy="165" r="5" fill="#C59B47" opacity="0.9" />
-          <g transform="translate(140, 85)" fill="#FFFFFF" stroke="#D7D0C0" strokeWidth="0.8">
-            <circle cx="10" cy="10" r="4.5" fill="#FBF9F4" />
-            <ellipse cx="10" cy="4" rx="3.5" ry="5.5" />
-            <ellipse cx="10" cy="16" rx="3.5" ry="5.5" />
-            <ellipse cx="4" cy="10" rx="5.5" ry="3.5" />
-            <ellipse cx="16" cy="10" rx="5.5" ry="3.5" />
-            <circle cx="10" cy="10" r="2" fill="#E7C97B" />
-          </g>
-        </svg>
-
-        {/* BOTTOM-LEFT BOTANICAL WATERCOLOR BRANCH (Climbing up elegantly) */}
-        <svg
-          viewBox="0 0 360 360"
-          className="absolute -bottom-8 -left-8 w-64 sm:w-88 md:w-104 h-auto opacity-80 scale-y-[-1]"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M-20 -20 Q130 50 180 190 T220 310" stroke="#3D4B22" strokeWidth="2.5" strokeLinecap="round" opacity="0.65" />
-          <g fill="#4E602C" opacity="0.75">
-            <path d="M70 45 C45 15, 100 5, 125 35 C130 55, 95 60, 70 45 Z" />
-            <path d="M135 75 C115 50, 165 30, 190 65 C195 90, 155 95, 135 75 Z" />
-            <path d="M165 150 C140 130, 185 100, 220 130 C235 155, 195 170, 165 150 Z" />
-          </g>
-          <g fill="#7A8E5D" opacity="0.6">
-            <ellipse cx="100" cy="65" rx="22" ry="14" transform="rotate(-30 100 65)" />
-            <ellipse cx="165" cy="115" rx="24" ry="16" transform="rotate(-25 165 115)" />
-          </g>
-          <circle cx="115" cy="95" r="4.5" fill="#C59B47" opacity="0.9" />
-          <circle cx="175" cy="155" r="4.5" fill="#C59B47" opacity="0.9" />
-        </svg>
-
-        {/* BOTTOM-RIGHT BOTANICAL WATERCOLOR BRANCH (Climbing up elegantly) */}
-        <svg
-          viewBox="0 0 360 360"
-          className="absolute -bottom-8 -right-8 w-64 sm:w-88 md:w-104 h-auto opacity-80 scale-[-1]"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M-20 -20 Q130 50 180 190 T220 310" stroke="#3D4B22" strokeWidth="2.5" strokeLinecap="round" opacity="0.65" />
-          <g fill="#4E602C" opacity="0.75">
-            <path d="M70 45 C45 15, 100 5, 125 35 C130 55, 95 60, 70 45 Z" />
-            <path d="M135 75 C115 50, 165 30, 190 65 C195 90, 155 95, 135 75 Z" />
-            <path d="M165 150 C140 130, 185 100, 220 130 C235 155, 195 170, 165 150 Z" />
-          </g>
-          <g fill="#7A8E5D" opacity="0.6">
-            <ellipse cx="100" cy="65" rx="22" ry="14" transform="rotate(-30 100 65)" />
-            <ellipse cx="165" cy="115" rx="24" ry="16" transform="rotate(-25 165 115)" />
-          </g>
-          <circle cx="115" cy="95" r="4.5" fill="#C59B47" opacity="0.9" />
-          <circle cx="175" cy="155" r="4.5" fill="#C59B47" opacity="0.9" />
-        </svg>
-
-        {/* Floating Golden Dust / Ambient Sparks */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[
-            { top: "18%", left: "12%", delay: 0 },
-            { top: "25%", left: "85%", delay: 1.2 },
-            { top: "68%", left: "15%", delay: 0.7 },
-            { top: "72%", left: "80%", delay: 1.8 },
-            { top: "45%", left: "8%", delay: 2.1 },
-            { top: "52%", left: "92%", delay: 1.5 },
-          ].map((spark, idx) => (
-            <motion.div
-              key={idx}
-              animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.8, 1.2, 0.8], y: [-5, 5, -5] }}
-              transition={{ repeat: Infinity, duration: 3.5, delay: spark.delay }}
-              style={{ top: spark.top, left: spark.left }}
-              className="absolute w-2 h-2 rounded-full bg-[#E7C97B] shadow-[0_0_8px_#C59B47] blur-[0.5px]"
-            />
-          ))}
+        {/* Delicate Outer Architectural Frame with Gold Leaf Filigree Corners */}
+        <div className="absolute inset-3 sm:inset-5 border border-[#4A5D27]/20 rounded-xs pointer-events-none">
+          <div className="absolute inset-1.5 border border-[#C59B47]/30 rounded-xs" />
         </div>
+
+        {/* TOP-LEFT DELICATE CORNER BOTANICAL GARLAND (Strictly hugging the outer edge, never crossing text) */}
+        <svg
+          viewBox="0 0 220 220"
+          className="absolute top-0 left-0 w-28 sm:w-40 md:w-48 h-auto opacity-85"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* Corner hugging stem */}
+          <path
+            d="M0 155 C12 95, 45 42, 145 4"
+            stroke="#4A5D27"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            opacity="0.65"
+          />
+          <path
+            d="M0 110 C22 72, 65 32, 110 0"
+            stroke="#C59B47"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            opacity="0.55"
+          />
+          {/* Olive leaves along the top-left perimeter */}
+          <g fill="#4E602C" opacity="0.78">
+            <path d="M16 112 C4 95, 22 76, 36 90 C38 104, 24 114, 16 112 Z" />
+            <path d="M36 74 C24 55, 46 38, 60 54 C62 68, 46 76, 36 74 Z" />
+            <path d="M68 42 C58 24, 82 10, 96 26 C96 40, 78 46, 68 42 Z" />
+            <path d="M108 20 C102 6, 124 -2, 134 12 C132 24, 116 26, 108 20 Z" />
+          </g>
+          {/* Soft sage secondary leaves */}
+          <g fill="#7A8E5D" opacity="0.6">
+            <ellipse cx="22" cy="134" rx="14" ry="7" transform="rotate(-65 22 134)" />
+            <ellipse cx="52" cy="60" rx="15" ry="7.5" transform="rotate(-42 52 60)" />
+            <ellipse cx="92" cy="30" rx="14" ry="7" transform="rotate(-22 92 30)" />
+          </g>
+          {/* Golden berries & corner jasmine bloom */}
+          <circle cx="44" cy="84" r="3.5" fill="#C59B47" />
+          <circle cx="82" cy="46" r="3.5" fill="#C59B47" />
+          <g transform="translate(32, 32)">
+            <circle cx="12" cy="12" r="9" fill="#FFFFFF" stroke="#DED6C6" strokeWidth="0.9" />
+            <circle cx="12" cy="12" r="3.2" fill="#E7C97B" />
+          </g>
+        </svg>
+
+        {/* TOP-RIGHT DELICATE CORNER BOTANICAL GARLAND */}
+        <svg
+          viewBox="0 0 220 220"
+          className="absolute top-0 right-0 w-28 sm:w-40 md:w-48 h-auto opacity-85 scale-x-[-1]"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 155 C12 95, 45 42, 145 4"
+            stroke="#4A5D27"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            opacity="0.65"
+          />
+          <path
+            d="M0 110 C22 72, 65 32, 110 0"
+            stroke="#C59B47"
+            strokeWidth="1.1"
+            strokeLinecap="round"
+            opacity="0.55"
+          />
+          <g fill="#4E602C" opacity="0.78">
+            <path d="M16 112 C4 95, 22 76, 36 90 C38 104, 24 114, 16 112 Z" />
+            <path d="M36 74 C24 55, 46 38, 60 54 C62 68, 46 76, 36 74 Z" />
+            <path d="M68 42 C58 24, 82 10, 96 26 C96 40, 78 46, 68 42 Z" />
+            <path d="M108 20 C102 6, 124 -2, 134 12 C132 24, 116 26, 108 20 Z" />
+          </g>
+          <g fill="#7A8E5D" opacity="0.6">
+            <ellipse cx="22" cy="134" rx="14" ry="7" transform="rotate(-65 22 134)" />
+            <ellipse cx="52" cy="60" rx="15" ry="7.5" transform="rotate(-42 52 60)" />
+            <ellipse cx="92" cy="30" rx="14" ry="7" transform="rotate(-22 92 30)" />
+          </g>
+          <circle cx="44" cy="84" r="3.5" fill="#C59B47" />
+          <circle cx="82" cy="46" r="3.5" fill="#C59B47" />
+          <g transform="translate(32, 32)">
+            <circle cx="12" cy="12" r="9" fill="#FFFFFF" stroke="#DED6C6" strokeWidth="0.9" />
+            <circle cx="12" cy="12" r="3.2" fill="#E7C97B" />
+          </g>
+        </svg>
+
+        {/* BOTTOM-LEFT DELICATE CORNER BOTANICAL GARLAND */}
+        <svg
+          viewBox="0 0 220 220"
+          className="absolute bottom-0 left-0 w-28 sm:w-40 md:w-48 h-auto opacity-85 scale-y-[-1]"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 155 C12 95, 45 42, 145 4"
+            stroke="#4A5D27"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            opacity="0.65"
+          />
+          <g fill="#4E602C" opacity="0.78">
+            <path d="M16 112 C4 95, 22 76, 36 90 C38 104, 24 114, 16 112 Z" />
+            <path d="M36 74 C24 55, 46 38, 60 54 C62 68, 46 76, 36 74 Z" />
+            <path d="M68 42 C58 24, 82 10, 96 26 C96 40, 78 46, 68 42 Z" />
+          </g>
+          <g fill="#7A8E5D" opacity="0.6">
+            <ellipse cx="22" cy="134" rx="14" ry="7" transform="rotate(-65 22 134)" />
+            <ellipse cx="52" cy="60" rx="15" ry="7.5" transform="rotate(-42 52 60)" />
+          </g>
+          <circle cx="44" cy="84" r="3.5" fill="#C59B47" />
+          <circle cx="82" cy="46" r="3.5" fill="#C59B47" />
+        </svg>
+
+        {/* BOTTOM-RIGHT DELICATE CORNER BOTANICAL GARLAND */}
+        <svg
+          viewBox="0 0 220 220"
+          className="absolute bottom-0 right-0 w-28 sm:w-40 md:w-48 h-auto opacity-85 scale-[-1]"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 155 C12 95, 45 42, 145 4"
+            stroke="#4A5D27"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            opacity="0.65"
+          />
+          <g fill="#4E602C" opacity="0.78">
+            <path d="M16 112 C4 95, 22 76, 36 90 C38 104, 24 114, 16 112 Z" />
+            <path d="M36 74 C24 55, 46 38, 60 54 C62 68, 46 76, 36 74 Z" />
+            <path d="M68 42 C58 24, 82 10, 96 26 C96 40, 78 46, 68 42 Z" />
+          </g>
+          <g fill="#7A8E5D" opacity="0.6">
+            <ellipse cx="22" cy="134" rx="14" ry="7" transform="rotate(-65 22 134)" />
+            <ellipse cx="52" cy="60" rx="15" ry="7.5" transform="rotate(-42 52 60)" />
+          </g>
+          <circle cx="44" cy="84" r="3.5" fill="#C59B47" />
+          <circle cx="82" cy="46" r="3.5" fill="#C59B47" />
+        </svg>
       </div>
 
-      {/* TOP HEADER - Magnificently Styled and Highly Legible */}
+      {/* TOP HEADER - Crystal Clear & Unobstructed */}
       <motion.div
         initial={{ opacity: 0, y: -25 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.95, ease: "easeOut" }}
-        className="relative z-20 text-center mt-2 sm:mt-5 px-4"
+        className="relative z-20 text-center mt-4 sm:mt-6 px-6 max-w-xl mx-auto"
       >
-        <p className="font-serif text-sm sm:text-base md:text-lg text-[#253015] tracking-[0.2em] uppercase font-semibold leading-relaxed">
+        <p className="font-serif text-xs sm:text-sm md:text-base text-[#3A4A1E] tracking-[0.22em] uppercase font-bold leading-relaxed">
           El día más importante de nuestras vidas ha llegado
         </p>
-        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-[0.25em] text-[#141C0A] mt-2 font-extrabold uppercase drop-shadow-sm">
+        <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl tracking-[0.22em] text-[#141C0A] mt-2 font-extrabold uppercase">
           ¡NOS CASAMOS!
         </h1>
         <div className="flex items-center justify-center gap-3 mt-3">
-          <span className="w-12 sm:w-20 h-px bg-[#4A5D27]/50" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#C59B47] shadow-[0_0_6px_rgba(197,155,71,0.6)]" />
-          <span className="w-12 sm:w-20 h-px bg-[#4A5D27]/50" />
+          <span className="w-12 sm:w-20 h-px bg-[#4A5D27]/45" />
+          <span className="w-2 h-2 rounded-full bg-[#C59B47]" />
+          <span className="w-12 sm:w-20 h-px bg-[#4A5D27]/45" />
         </div>
       </motion.div>
 
-      {/* CENTER INTERACTIVE LUXURY OLIVE ENVELOPE (With Realism & Depth) */}
+      {/* CENTER INTERACTIVE SMOOTH MATTE LUXURY ENVELOPE (Zero Squares / Grid Pattern) */}
       <div className="relative z-30 w-full max-w-100 sm:max-w-120 md:max-w-130 my-auto flex flex-col items-center">
         <div
           className={`relative w-full transition-transform duration-700 ease-out ${
@@ -232,27 +244,16 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
           }`}
           style={{ aspectRatio: "4 / 2.75", filter: "url(#realistic-envelope-shadow)" }}
         >
-          {/* 1. BACK INTERIOR LINING OF THE ENVELOPE */}
+          {/* 1. SMOOTH INTERIOR LINING OF THE ENVELOPE */}
           <div
             className="absolute inset-0 rounded-md overflow-hidden"
             style={{
-              background: "linear-gradient(180deg, #2D3915 0%, #222C0E 100%)",
-              boxShadow: "inset 0 6px 20px rgba(0, 0, 0, 0.6)",
+              background: "linear-gradient(180deg, #2D3915 0%, #1F280D 100%)",
+              boxShadow: "inset 0 8px 24px rgba(0, 0, 0, 0.55)",
             }}
-          >
-            {/* Interior Gold Filigree & Linen Pattern Overlay */}
-            <div
-              className="absolute inset-0 opacity-20 mix-blend-overlay"
-              style={{
-                backgroundImage:
-                  "radial-gradient(#E7C97B 0.9px, transparent 0.9px), radial-gradient(#3D4B22 0.9px, #222C0E 0.9px)",
-                backgroundSize: "14px 14px",
-                backgroundPosition: "0 0, 7px 7px",
-              }}
-            />
-          </div>
+          />
 
-          {/* 2. OPEN FLAP (Folded upwards when opened) */}
+          {/* 2. OPEN FLAP (Folded upwards when opened - Smooth Matte Finish) */}
           <AnimatePresence>
             {stage !== "closed" && (
               <motion.div
@@ -262,12 +263,10 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
                 style={{
                   transformOrigin: "bottom center",
                   clipPath: "polygon(0 100%, 50% 0, 100% 100%)",
-                  background: "linear-gradient(180deg, #576A36 0%, #46552B 70%, #34421E 100%)",
+                  background: "linear-gradient(180deg, #5A6E36 0%, #48582B 68%, #36431F 100%)",
                 }}
                 className="absolute -top-[56%] left-0 w-full h-[57%] z-0"
-              >
-                <div className="absolute inset-0 border-t border-[#8DA365]/40 opacity-70" />
-              </motion.div>
+              />
             )}
           </AnimatePresence>
 
@@ -325,51 +324,50 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
             )}
           </AnimatePresence>
 
-          {/* 4. ENVELOPE FRONT BODY (High-Realism 320gsm Textured Mediterranean Olive Cardstock) */}
-          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-md">
-            {/* Left triangular fold with realistic directional shadow and bevel */}
+          {/* 4. ENVELOPE FRONT BODY (Ultra-Smooth Matte Velvety Olive Cardstock - NO SQUARES) */}
+          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-md border border-[#6E8544]/35">
+            {/* Base smooth backing to prevent any seam gaps */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(180deg, #4B5C2B 0%, #3E4D22 100%)",
+              }}
+            />
+
+            {/* Left smooth triangular fold with soft natural lighting */}
             <div
               className="absolute inset-0"
               style={{
                 clipPath: "polygon(0 0, 52% 52%, 0 100%)",
-                background: "linear-gradient(135deg, #5B6F36 0%, #4D5E2D 60%, #3B4A21 100%)",
-                filter: "drop-shadow(3px 0 4px rgba(15, 22, 6, 0.4))",
+                background: "linear-gradient(135deg, #61763B 0%, #526430 55%, #435325 100%)",
+                filter: "drop-shadow(4px 0 6px rgba(15, 22, 6, 0.32))",
               }}
             />
-            {/* Right triangular fold */}
+
+            {/* Right smooth triangular fold */}
             <div
               className="absolute inset-0"
               style={{
                 clipPath: "polygon(100% 0, 48% 52%, 100% 100%)",
-                background: "linear-gradient(225deg, #576932 0%, #4B5B2A 60%, #37451D 100%)",
-                filter: "drop-shadow(-3px 0 4px rgba(15, 22, 6, 0.4))",
+                background: "linear-gradient(225deg, #5C7037 0%, #4E602D 55%, #3E4E22 100%)",
+                filter: "drop-shadow(-4px 0 6px rgba(15, 22, 6, 0.32))",
               }}
             />
-            {/* Bottom triangular fold with upper paper ridge */}
+
+            {/* Bottom smooth triangular pocket fold with soft satin sheen */}
             <div
               className="absolute inset-0"
               style={{
-                clipPath: "polygon(0 100%, 50% 46%, 100% 100%)",
-                background: "linear-gradient(0deg, #425222 0%, #4F612B 45%, #5D7135 100%)",
-                filter: "drop-shadow(0 -3px 5px rgba(15, 22, 6, 0.45))",
+                clipPath: "polygon(0 100%, 50% 45%, 100% 100%)",
+                background: "linear-gradient(0deg, #445525 0%, #536630 50%, #63783C 100%)",
+                filter: "drop-shadow(0 -4px 8px rgba(15, 22, 6, 0.38))",
               }}
             />
 
-            {/* Tactile Cotton Rag Paper Texture Overlay */}
-            <div
-              className="absolute inset-0 opacity-20 mix-blend-overlay"
-              style={{
-                backgroundImage:
-                  "radial-gradient(#FFFFFF 0.8px, transparent 0.8px), radial-gradient(#000000 0.8px, transparent 0.8px)",
-                backgroundSize: "6px 6px",
-                backgroundPosition: "0 0, 3px 3px",
-              }}
-            />
-
-            {/* Fold Creases highlight and shadow lines */}
+            {/* Delicate Gold-Tinted Bevel Highlights Along Pocket Edges */}
             <svg viewBox="0 0 400 275" className="absolute inset-0 w-full h-full">
-              <line x1="0" y1="275" x2="200" y2="128" stroke="#87A353" strokeWidth="1.4" opacity="0.45" />
-              <line x1="400" y1="275" x2="200" y2="128" stroke="#1F2A0B" strokeWidth="1.8" opacity="0.55" />
+              <line x1="0" y1="275" x2="200" y2="124" stroke="#8CA858" strokeWidth="1.2" opacity="0.5" />
+              <line x1="400" y1="275" x2="200" y2="124" stroke="#283412" strokeWidth="1.4" opacity="0.45" />
             </svg>
           </div>
 
@@ -385,38 +383,36 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
                 onClick={handleOpenFlap}
                 className="absolute inset-0 z-30 cursor-pointer"
               >
-                {/* Triangular top flap */}
+                {/* Smooth Matte Triangular Top Flap */}
                 <div
-                  className="absolute top-0 left-0 w-full h-[65%]"
+                  className="absolute top-0 left-0 w-full h-[64%]"
                   style={{
                     clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                    background: "linear-gradient(180deg, #667D3E 0%, #546731 58%, #415124 100%)",
-                    boxShadow: "0 14px 26px rgba(12, 18, 5, 0.55)",
+                    background: "linear-gradient(180deg, #6A8042 0%, #586B35 58%, #475829 100%)",
+                    boxShadow: "0 14px 26px rgba(12, 18, 5, 0.5)",
                   }}
                 />
 
-                {/* Flap edge highlight / bevel */}
+                {/* Smooth Flap Bevel Edge */}
                 <svg viewBox="0 0 400 275" className="absolute inset-0 w-full h-full pointer-events-none">
-                  {/* Left flap ridge highlight */}
-                  <line x1="0" y1="0" x2="200" y2="178" stroke="#97B45F" strokeWidth="1.8" opacity="0.65" />
-                  {/* Right flap ridge shadow */}
-                  <line x1="400" y1="0" x2="200" y2="178" stroke="#1F2A0B" strokeWidth="2.2" opacity="0.55" />
+                  <line x1="0" y1="0" x2="200" y2="176" stroke="#9AB764" strokeWidth="1.5" opacity="0.6" />
+                  <line x1="400" y1="0" x2="200" y2="176" stroke="#243010" strokeWidth="1.8" opacity="0.5" />
                 </svg>
 
-                {/* Flap contact shadow falling on the pocket below */}
+                {/* Soft Flap Contact Shadow */}
                 <div
-                  className="absolute top-[64%] left-1/2 -translate-x-1/2 w-[72%] h-7 opacity-50 pointer-events-none blur-sm"
+                  className="absolute top-[62%] left-1/2 -translate-x-1/2 w-[68%] h-6 opacity-45 pointer-events-none blur-sm"
                   style={{
-                    background: "radial-gradient(ellipse at center, rgba(10,15,4,0.9) 0%, transparent 75%)",
+                    background: "radial-gradient(ellipse at center, rgba(10,15,4,0.85) 0%, transparent 75%)",
                   }}
                 />
 
-                {/* "Toca aquí para abrir" Calling Badge + Gold Wax Seal */}
+                {/* "Toca aquí para abrir" Badge + Gold Wax Seal */}
                 <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
                   <motion.div
                     animate={{ y: [0, -4, 0], scale: [1, 1.03, 1] }}
                     transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
-                    className="flex items-center gap-2 mb-3 bg-[#1C260D]/80 px-4 py-1.5 rounded-full backdrop-blur-md border border-[#E7C97B]/50 shadow-xl"
+                    className="flex items-center gap-2 mb-3 bg-[#1E280E]/85 px-4 py-1.5 rounded-full backdrop-blur-md border border-[#E7C97B]/55 shadow-lg whitespace-nowrap"
                   >
                     <span className="w-2 h-2 rounded-full bg-[#E7C97B] animate-ping" />
                     <span className="font-serif text-xs sm:text-sm text-white font-semibold tracking-wider">
@@ -426,7 +422,7 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
                   </motion.div>
 
                   <motion.div whileHover={{ scale: 1.12 }} whileTap={{ scale: 0.93 }}>
-                    <WaxSeal text="D&T" size="lg" className="shadow-[0_12px_28px_rgba(0,0,0,0.5)]" />
+                    <WaxSeal text="D&T" size="lg" className="shadow-[0_12px_28px_rgba(0,0,0,0.48)]" />
                   </motion.div>
                 </div>
               </motion.div>
@@ -462,21 +458,23 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
           </AnimatePresence>
         </div>
 
-        {/* COUPLE NAMES UNDER THE ENVELOPE (Large, High-Contrast & Prestigious) */}
+        {/* COUPLE NAMES & SINGLE-LINE DATE UNDER THE ENVELOPE (100% Unobstructed) */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.35, duration: 0.85 }}
-          className={`text-center transition-all duration-700 ${
+          className={`text-center transition-all duration-700 px-4 ${
             stage === "opened" ? "mt-24 sm:mt-28" : "mt-10 sm:mt-12"
           }`}
         >
-          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-[0.28em] text-[#141C0A] uppercase font-extrabold drop-shadow-sm">
+          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl tracking-[0.24em] text-[#141C0A] uppercase font-extrabold">
             DAVID & THALIA
           </h2>
-          <p className="font-serif italic text-base sm:text-lg md:text-xl text-[#4A5D27] font-bold tracking-[0.22em] mt-1.5">
-            15 · NOVIEMBRE · 2026
-          </p>
+          <div className="inline-flex items-center justify-center gap-3 mt-2.5 px-5 py-1 rounded-full bg-[#FAF8F5]/80 border border-[#C59B47]/40 shadow-2xs">
+            <span className="font-serif text-sm sm:text-base md:text-lg text-[#3B4920] font-extrabold tracking-[0.2em] whitespace-nowrap">
+              15 - NOV - 2026
+            </span>
+          </div>
         </motion.div>
       </div>
 
