@@ -244,14 +244,17 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
           }`}
           style={{ aspectRatio: "4 / 2.75", filter: "url(#realistic-envelope-shadow)" }}
         >
-          {/* 1. SMOOTH INTERIOR LINING OF THE ENVELOPE */}
+          {/* 1. SMOOTH INTERIOR LINING OF THE ENVELOPE (Deep inner pocket visible at the top V opening) */}
           <div
-            className="absolute inset-0 rounded-md overflow-hidden"
+            className="absolute inset-0 rounded-md overflow-hidden z-0"
             style={{
-              background: "linear-gradient(180deg, #2D3915 0%, #1F280D 100%)",
-              boxShadow: "inset 0 8px 24px rgba(0, 0, 0, 0.55)",
+              background: "linear-gradient(180deg, #2A3513 0%, #1C240B 100%)",
+              boxShadow: "inset 0 10px 26px rgba(0, 0, 0, 0.65)",
             }}
-          />
+          >
+            {/* Subtle gold interior trim along the top inner lip */}
+            <div className="absolute top-2 inset-x-3 h-px bg-[#C59B47]/35" />
+          </div>
 
           {/* 2. OPEN FLAP (Folded upwards when opened - Smooth Matte Finish) */}
           <AnimatePresence>
@@ -259,44 +262,42 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
               <motion.div
                 initial={{ rotateX: 90, opacity: 0 }}
                 animate={{ rotateX: 0, opacity: 1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{ duration: 0.55, ease: "easeOut" }}
                 style={{
                   transformOrigin: "bottom center",
                   clipPath: "polygon(0 100%, 50% 0, 100% 100%)",
-                  background: "linear-gradient(180deg, #5A6E36 0%, #48582B 68%, #36431F 100%)",
+                  background: "linear-gradient(180deg, #5A6E36 0%, #48582B 68%, #323E1C 100%)",
                 }}
-                className="absolute -top-[56%] left-0 w-full h-[57%] z-0"
+                className="absolute -top-[55%] left-0 w-full h-[56%] z-0"
               />
             )}
           </AnimatePresence>
 
-          {/* 3. CARDS EMERGING FROM INSIDE (Stage: opened) */}
+          {/* 3. CARDS EMERGING FROM INSIDE THE POCKET (Between z-0 interior and z-20 front pocket flaps) */}
           <AnimatePresence>
             {stage !== "closed" && (
               <>
                 {/* Left Pass Card: RESERVADO PARA */}
                 <motion.div
-                  initial={{ y: 50, rotate: 0, opacity: 0 }}
-                  animate={{ y: -72, rotate: -7, opacity: 1 }}
-                  transition={{ delay: 0.25, duration: 0.75, ease: "easeOut" }}
+                  initial={{ y: 40, rotate: 0, opacity: 0 }}
+                  animate={{ y: -88, rotate: -7, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.75, ease: "easeOut" }}
                   onClick={handleEnterInvitation}
-                  style={{ aspectRatio: "3 / 4.2" }}
-                  className="absolute left-3 sm:left-5 top-2 w-[52%] bg-[#FAF8F5] p-3 sm:p-3.5 shadow-2xl cursor-pointer z-10 rounded-xs border border-[#3B4920]/40"
+                  style={{ aspectRatio: "3 / 4.1" }}
+                  className="absolute left-3 sm:left-5 top-3 w-[51%] bg-[#FAF8F5] p-2.5 sm:p-3.5 shadow-[0_-8px_28px_rgba(12,18,5,0.38)] cursor-pointer z-10 rounded-xs border border-[#3B4920]/40"
                 >
-                  <div className="w-full h-full border-2 border-[#3B4920]/70 flex flex-col items-center justify-between p-3 text-center bg-[#FAF8F5]">
-                    <div className="flex flex-col items-center">
-                      <span className="font-serif text-[11px] sm:text-xs tracking-[0.2em] uppercase text-[#3B4920] font-bold">
-                        RESERVADO PARA
-                      </span>
-                      <div className="w-8 h-0.5 bg-[#C59B47] my-2" />
-                    </div>
+                  <div className="w-full h-full border-2 border-[#3B4920]/70 flex flex-col items-center justify-start pt-3 sm:pt-4 px-2.5 pb-8 text-center bg-[#FAF8F5]">
+                    <span className="font-serif text-[10px] sm:text-xs tracking-[0.2em] uppercase text-[#3B4920] font-bold">
+                      RESERVADO PARA
+                    </span>
+                    <div className="w-8 h-0.5 bg-[#C59B47] my-1.5 sm:my-2" />
 
-                    <p className="font-serif text-sm sm:text-base md:text-lg font-extrabold text-[#141C0A] leading-snug line-clamp-3">
+                    <p className="font-serif text-sm sm:text-base md:text-lg font-extrabold text-[#141C0A] leading-snug line-clamp-2 my-1">
                       {guestName || "Invitado Especial"}
                     </p>
 
-                    <div className="w-full pt-2 border-t border-[#3B4920]/30">
-                      <span className="font-serif text-xs sm:text-sm text-[#4E612B] font-bold tracking-wide">
+                    <div className="w-full pt-1.5 mt-1 border-t border-[#3B4920]/30">
+                      <span className="font-serif text-[11px] sm:text-xs text-[#4E612B] font-bold tracking-wide">
                         {passesLabel}
                       </span>
                     </div>
@@ -305,12 +306,12 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
 
                 {/* Right Polaroid Photo Card */}
                 <motion.div
-                  initial={{ y: 50, rotate: 0, opacity: 0 }}
-                  animate={{ y: -64, rotate: 6, opacity: 1 }}
-                  transition={{ delay: 0.35, duration: 0.75, ease: "easeOut" }}
+                  initial={{ y: 40, rotate: 0, opacity: 0 }}
+                  animate={{ y: -80, rotate: 6, opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.75, ease: "easeOut" }}
                   onClick={handleEnterInvitation}
-                  style={{ aspectRatio: "3 / 3.9" }}
-                  className="absolute right-3 sm:right-5 top-2 w-[50%] bg-white p-2.5 pb-7 sm:pb-8 shadow-2xl cursor-pointer z-10 rounded-xs border border-black/10"
+                  style={{ aspectRatio: "3 / 3.8" }}
+                  className="absolute right-3 sm:right-5 top-3 w-[49%] bg-white p-2 sm:p-2.5 pb-6 sm:pb-7 shadow-[0_-8px_28px_rgba(12,18,5,0.38)] cursor-pointer z-10 rounded-xs border border-black/10"
                 >
                   <div className="w-full h-full overflow-hidden bg-[#E8ECE2] rounded-xs shadow-inner">
                     <img
@@ -324,23 +325,15 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
             )}
           </AnimatePresence>
 
-          {/* 4. ENVELOPE FRONT BODY (Ultra-Smooth Matte Velvety Olive Cardstock - NO SQUARES) */}
-          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-md border border-[#6E8544]/35">
-            {/* Base smooth backing to prevent any seam gaps */}
+          {/* 4. ENVELOPE FRONT POCKET FLAPS (Left, Right & Bottom triangles only — Open V at top so cards emerge from inside!) */}
+          <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden rounded-md">
+            {/* Left smooth triangular fold */}
             <div
               className="absolute inset-0"
               style={{
-                background: "linear-gradient(180deg, #4B5C2B 0%, #3E4D22 100%)",
-              }}
-            />
-
-            {/* Left smooth triangular fold with soft natural lighting */}
-            <div
-              className="absolute inset-0"
-              style={{
-                clipPath: "polygon(0 0, 52% 52%, 0 100%)",
+                clipPath: "polygon(0 0, 52% 54%, 0 100%)",
                 background: "linear-gradient(135deg, #61763B 0%, #526430 55%, #435325 100%)",
-                filter: "drop-shadow(4px 0 6px rgba(15, 22, 6, 0.32))",
+                filter: "drop-shadow(4px 2px 6px rgba(10, 15, 4, 0.42))",
               }}
             />
 
@@ -348,26 +341,30 @@ export default function Envelope({ guestName, guestPasses = 1, onOpen }: Envelop
             <div
               className="absolute inset-0"
               style={{
-                clipPath: "polygon(100% 0, 48% 52%, 100% 100%)",
+                clipPath: "polygon(100% 0, 48% 54%, 100% 100%)",
                 background: "linear-gradient(225deg, #5C7037 0%, #4E602D 55%, #3E4E22 100%)",
-                filter: "drop-shadow(-4px 0 6px rgba(15, 22, 6, 0.32))",
+                filter: "drop-shadow(-4px 2px 6px rgba(10, 15, 4, 0.42))",
               }}
             />
 
-            {/* Bottom smooth triangular pocket fold with soft satin sheen */}
+            {/* Bottom smooth triangular pocket fold */}
             <div
               className="absolute inset-0"
               style={{
-                clipPath: "polygon(0 100%, 50% 45%, 100% 100%)",
+                clipPath: "polygon(0 100%, 50% 46%, 100% 100%)",
                 background: "linear-gradient(0deg, #445525 0%, #536630 50%, #63783C 100%)",
-                filter: "drop-shadow(0 -4px 8px rgba(15, 22, 6, 0.38))",
+                filter: "drop-shadow(0 -5px 8px rgba(10, 15, 4, 0.45))",
               }}
             />
 
-            {/* Delicate Gold-Tinted Bevel Highlights Along Pocket Edges */}
+            {/* Crisp V-Pocket & Bottom Fold Bevel Lines */}
             <svg viewBox="0 0 400 275" className="absolute inset-0 w-full h-full">
-              <line x1="0" y1="275" x2="200" y2="124" stroke="#8CA858" strokeWidth="1.2" opacity="0.5" />
-              <line x1="400" y1="275" x2="200" y2="124" stroke="#283412" strokeWidth="1.4" opacity="0.45" />
+              {/* Left & right V-mouth edges where the cards slide out */}
+              <line x1="0" y1="0" x2="200" y2="144" stroke="#89A455" strokeWidth="1.3" opacity="0.55" />
+              <line x1="400" y1="0" x2="200" y2="144" stroke="#7E984D" strokeWidth="1.3" opacity="0.45" />
+              {/* Bottom triangle edges */}
+              <line x1="0" y1="275" x2="200" y2="126" stroke="#8CA858" strokeWidth="1.3" opacity="0.55" />
+              <line x1="400" y1="275" x2="200" y2="126" stroke="#283412" strokeWidth="1.5" opacity="0.5" />
             </svg>
           </div>
 
